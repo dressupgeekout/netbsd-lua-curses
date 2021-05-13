@@ -1,5 +1,7 @@
 /* $NetBSD$ */
 
+#include <stdbool.h>
+
 #include <curses.h>
 
 #include <lua.h>
@@ -17,6 +19,7 @@ static int curses_getch(lua_State *L);
 static int curses_getcurx(lua_State *L);
 static int curses_getcury(lua_State *L);
 static int curses_has_colors(lua_State *L);
+static int curses_hline(lua_State *L);
 static int curses_initscr(lua_State *L);
 static int curses_insch(lua_State *L);
 static int curses_move(lua_State *L);
@@ -25,6 +28,9 @@ static int curses_nl(lua_State *L);
 static int curses_noecho(lua_State *L);
 static int curses_nonl(lua_State *L);
 static int curses_refresh(lua_State *L);
+static int curses_scroll(lua_State *L);
+static int curses_scrollok(lua_State *L);
+static int curses_vline(lua_State *L);
 
 /* ********** */
 
@@ -146,6 +152,19 @@ curses_has_colors(lua_State *L)
 
 
 /*
+ * result = hline(char, n)
+ */
+static int
+curses_hline(lua_State *L)
+{
+	const char *ch = luaL_checkstring(L, 1);
+	int n = luaL_checkinteger(L, 2);
+	lua_pushinteger(L, hline(ch[0], n));
+	return 1;
+}
+
+
+/*
  * window = initscr()
  */
 static int
@@ -240,6 +259,45 @@ curses_refresh(lua_State *L)
 	return 1;
 }
 
+
+/*
+ * result = scroll(window)
+ */
+static int
+curses_scroll(lua_State *L)
+{
+	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	lua_pushinteger(L, scroll(*window));
+	return 1;
+}
+
+
+/*
+ * result = scrollok(window, bool)
+ */
+static int
+curses_scrollok(lua_State *L)
+{
+	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	luaL_checktype(L, 2, LUA_TBOOLEAN);
+	bool flag = lua_toboolean(L, 2); 
+	lua_pushinteger(L, scrollok(*window, flag));
+	return 1;
+}
+
+
+/*
+ * result = vline(char, n)
+ */
+static int
+curses_vline(lua_State *L)
+{
+	const char *ch = luaL_checkstring(L, 1);
+	int n = luaL_checkinteger(L, 2);
+	lua_pushinteger(L, vline(ch[0], n));
+	return 1;
+}
+
 /* ********** */
 
 int
@@ -278,6 +336,7 @@ luaopen_curses(lua_State *L)
 		{"getcurx", curses_getcurx},
 		{"getcury", curses_getcury},
 		{"has_colors", curses_has_colors},
+		{"hline", curses_hline},
 		{"initscr", curses_initscr},
 		{"insch", curses_insch},
 		{"move", curses_move},
@@ -286,6 +345,9 @@ luaopen_curses(lua_State *L)
 		{"noecho", curses_noecho},
 		{"nonl", curses_nonl},
 		{"refresh", curses_refresh},
+		{"scroll", curses_scroll},
+		{"scrollok", curses_scrollok},
+		{"vline", curses_vline},
 		{NULL, NULL},
 	};
 
