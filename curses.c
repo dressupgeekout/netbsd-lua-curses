@@ -11,8 +11,12 @@ int luaopen_curses(lua_State *L);
 
 static int curses_addch(lua_State *L);
 static int curses_addstr(lua_State *L);
+static int curses_baudrate(lua_State *L);
+static int curses_beep(lua_State *L);
 static int curses_box(lua_State *L);
+static int curses_cbreak(lua_State *L);
 static int curses_clear(lua_State *L);
+static int curses_curs_set(lua_State *L);
 static int curses_echo(lua_State *L);
 static int curses_endwin(lua_State *L);
 static int curses_filter(lua_State *L);
@@ -20,16 +24,22 @@ static int curses_flash(lua_State *L);
 static int curses_getch(lua_State *L);
 static int curses_getcurx(lua_State *L);
 static int curses_getcury(lua_State *L);
+static int curses_halfdelay(lua_State *L);
 static int curses_has_colors(lua_State *L);
+static int curses_has_ic(lua_State *L);
 static int curses_hline(lua_State *L);
 static int curses_initscr(lua_State *L);
 static int curses_insch(lua_State *L);
 static int curses_isendwin(lua_State *L);
+static int curses_meta(lua_State *L);
 static int curses_move(lua_State *L);
 static int curses_mvaddstr(lua_State *L);
 static int curses_nl(lua_State *L);
+static int curses_nocbreak(lua_State *L);
 static int curses_noecho(lua_State *L);
 static int curses_nonl(lua_State *L);
+static int curses_noraw(lua_State *L);
+static int curses_raw(lua_State *L);
 static int curses_refresh(lua_State *L);
 static int curses_resize_term(lua_State *L);
 static int curses_resizeterm(lua_State *L);
@@ -68,6 +78,27 @@ curses_addstr(lua_State *L)
 
 
 /*
+ * bits_per_second = baudrate()
+ */
+static int
+curses_baudrate(lua_State *L)
+{
+	lua_pushinteger(L, baudrate());
+	return 1;
+}
+
+
+/*
+ * result = beep()
+ */
+static int curses_beep(lua_State *L)
+{
+	lua_pushinteger(L, beep());
+	return 1;
+}
+
+
+/*
  * result = box(window, vertical, horizontal)
  */
 static int
@@ -82,12 +113,35 @@ curses_box(lua_State *L)
 
 
 /*
+ * result = cbreak()
+ */
+static int
+curses_cbreak(lua_State *L)
+{
+	lua_pushinteger(L, cbreak());
+	return 1;
+}
+
+
+/*
  * result = clear()
  */
 static int
 curses_clear(lua_State *L)
 {
 	lua_pushinteger(L, clear());
+	return 1;
+}
+
+
+/*
+ * result = curs_set(visibility)
+ */
+static int
+curses_curs_set(lua_State *L)
+{
+	int visibility = luaL_checkinteger(L, 1);
+	lua_pushinteger(L, curs_set(visibility));
 	return 1;
 }
 
@@ -172,12 +226,35 @@ curses_getcury(lua_State *L)
 
 
 /*
+ * result = halfdelay(count)
+ */
+static int
+curses_halfdelay(lua_State *L)
+{
+	int count = luaL_checkinteger(L, 1);
+	lua_pushinteger(L, halfdelay(count));
+	return 1;
+}
+
+
+/*
  * result = has_colors()
  */
 static int
 curses_has_colors(lua_State *L)
 {
 	lua_pushboolean(L, has_colors());
+	return 1;
+}
+
+
+/*
+ * bool = has_ic()
+ */
+static int
+curses_has_ic(lua_State *L)
+{
+	lua_pushboolean(L, has_ic());
 	return 1;
 }
 
@@ -232,6 +309,20 @@ curses_isendwin(lua_State *L)
 
 
 /*
+ * result = meta(window, bool)
+ */
+static int
+curses_meta(lua_State *L)
+{
+	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	luaL_checktype(L, 2, LUA_TBOOLEAN);
+	bool flag = lua_toboolean(L, 2);
+	lua_pushinteger(L, meta(*window, flag));
+	return 1;
+}
+
+
+/*
  * result = move(y, x)
  */
 static int
@@ -270,6 +361,17 @@ curses_nl(lua_State *L)
 
 
 /*
+ * result = nocbreak()
+ */
+static int
+curses_nocbreak(lua_State *L)
+{
+	lua_pushinteger(L, nocbreak());
+	return 1;
+}
+
+
+/*
  * result = noecho()
  */
 static int
@@ -287,6 +389,28 @@ static int
 curses_nonl(lua_State *L)
 {
 	lua_pushinteger(L, nonl());
+	return 1;
+}
+
+
+/*
+ * result = noraw()
+ */
+static int
+curses_noraw(lua_State *L)
+{
+	lua_pushinteger(L, noraw());
+	return 1;
+}
+
+
+/*
+ * result = raw()
+ */
+static int
+curses_raw(lua_State *L)
+{
+	lua_pushinteger(L, raw());
 	return 1;
 }
 
@@ -441,8 +565,12 @@ luaopen_curses(lua_State *L)
 	struct luaL_Reg functions[] = {
 		{"addch", curses_addch},
 		{"addstr", curses_addstr},
+		{"baudrate", curses_baudrate},
+		{"beep", curses_beep},
 		{"box", curses_box},
+		{"cbreak", curses_cbreak},
 		{"clear", curses_clear},
+		{"curs_set", curses_curs_set},
 		{"echo", curses_echo},
 		{"endwin", curses_endwin},
 		{"filter", curses_filter},
@@ -450,16 +578,22 @@ luaopen_curses(lua_State *L)
 		{"getch", curses_getch},
 		{"getcurx", curses_getcurx},
 		{"getcury", curses_getcury},
+		{"halfdelay", curses_halfdelay},
 		{"has_colors", curses_has_colors},
+		{"has_ic", curses_has_ic},
 		{"hline", curses_hline},
 		{"initscr", curses_initscr},
 		{"insch", curses_insch},
 		{"isendwin", curses_isendwin},
+		{"meta", curses_meta},
 		{"move", curses_move},
 		{"mvaddstr", curses_mvaddstr},
 		{"nl", curses_nl},
+		{"nocbreak", curses_nocbreak},
 		{"noecho", curses_noecho},
 		{"nonl", curses_nonl},
+		{"noraw", curses_noraw},
+		{"raw", curses_raw},
 		{"refresh", curses_refresh},
 		{"resize_term", curses_resize_term},
 		{"resizeterm", curses_resizeterm},
