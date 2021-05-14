@@ -14,6 +14,8 @@ static int curses_addstr(lua_State *L);
 static int curses_box(lua_State *L);
 static int curses_clear(lua_State *L);
 static int curses_echo(lua_State *L);
+static int curses_endwin(lua_State *L);
+static int curses_filter(lua_State *L);
 static int curses_flash(lua_State *L);
 static int curses_getch(lua_State *L);
 static int curses_getcurx(lua_State *L);
@@ -22,12 +24,15 @@ static int curses_has_colors(lua_State *L);
 static int curses_hline(lua_State *L);
 static int curses_initscr(lua_State *L);
 static int curses_insch(lua_State *L);
+static int curses_isendwin(lua_State *L);
 static int curses_move(lua_State *L);
 static int curses_mvaddstr(lua_State *L);
 static int curses_nl(lua_State *L);
 static int curses_noecho(lua_State *L);
 static int curses_nonl(lua_State *L);
 static int curses_refresh(lua_State *L);
+static int curses_resize_term(lua_State *L);
+static int curses_resizeterm(lua_State *L);
 static int curses_scroll(lua_State *L);
 static int curses_scrollok(lua_State *L);
 static int curses_standend(lua_State *L);
@@ -95,6 +100,28 @@ curses_echo(lua_State *L)
 {
 	lua_pushinteger(L, echo());
 	return 1;
+}
+
+
+/*
+ * result = endwin()
+ */
+static int
+curses_endwin(lua_State *L)
+{
+	lua_pushinteger(L, endwin());
+	return 1;
+}
+
+
+/*
+ * filter()
+ */
+static int
+curses_filter(lua_State *L)
+{
+	filter();
+	return 0;
 }
 
 
@@ -194,6 +221,17 @@ curses_insch(lua_State *L)
 
 
 /*
+ * bool = isendwin()
+ */
+static int
+curses_isendwin(lua_State *L)
+{
+	lua_pushboolean(L, isendwin());
+	return 1;
+}
+
+
+/*
  * result = move(y, x)
  */
 static int
@@ -260,6 +298,31 @@ static int
 curses_refresh(lua_State *L)
 {
 	lua_pushinteger(L, refresh());
+	return 1;
+}
+
+
+/*
+ * result = resize_term(lines, cols)
+ */
+static int curses_resize_term(lua_State *L)
+{
+	int lines = luaL_checkinteger(L, 1);
+	int cols = luaL_checkinteger(L, 2);
+	lua_pushinteger(L, resize_term(lines, cols));
+	return 1;
+}
+
+
+/*
+ * resizeterm(lines, cols)
+ */
+static int
+curses_resizeterm(lua_State *L)
+{
+	int lines = luaL_checkinteger(L, 1);
+	int cols = luaL_checkinteger(L, 2);
+	lua_pushinteger(L, resizeterm(lines, cols));
 	return 1;
 }
 
@@ -381,6 +444,8 @@ luaopen_curses(lua_State *L)
 		{"box", curses_box},
 		{"clear", curses_clear},
 		{"echo", curses_echo},
+		{"endwin", curses_endwin},
+		{"filter", curses_filter},
 		{"flash", curses_flash},
 		{"getch", curses_getch},
 		{"getcurx", curses_getcurx},
@@ -389,12 +454,15 @@ luaopen_curses(lua_State *L)
 		{"hline", curses_hline},
 		{"initscr", curses_initscr},
 		{"insch", curses_insch},
+		{"isendwin", curses_isendwin},
 		{"move", curses_move},
 		{"mvaddstr", curses_mvaddstr},
 		{"nl", curses_nl},
 		{"noecho", curses_noecho},
 		{"nonl", curses_nonl},
 		{"refresh", curses_refresh},
+		{"resize_term", curses_resize_term},
+		{"resizeterm", curses_resizeterm},
 		{"scroll", curses_scroll},
 		{"scrollok", curses_scrollok},
 		{"standend", curses_standend},
