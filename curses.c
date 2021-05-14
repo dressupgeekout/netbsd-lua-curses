@@ -30,7 +30,11 @@ static int curses_nonl(lua_State *L);
 static int curses_refresh(lua_State *L);
 static int curses_scroll(lua_State *L);
 static int curses_scrollok(lua_State *L);
+static int curses_standend(lua_State *L);
+static int curses_standout(lua_State *L);
 static int curses_vline(lua_State *L);
+static int curses_wstandend(lua_State *L);
+static int curses_wstandout(lua_State *L);
 
 /* ********** */
 
@@ -287,6 +291,28 @@ curses_scrollok(lua_State *L)
 
 
 /*
+ * result = standend()
+ */
+static int
+curses_standend(lua_State *L)
+{
+	lua_pushinteger(L, standend());
+	return 1;
+}
+
+
+/*
+ * result = standout()
+ */
+static int
+curses_standout(lua_State *L)
+{
+	lua_pushinteger(L, standout());
+	return 1;
+}
+
+
+/*
  * result = vline(char, n)
  */
 static int
@@ -295,6 +321,30 @@ curses_vline(lua_State *L)
 	const char *ch = luaL_checkstring(L, 1);
 	int n = luaL_checkinteger(L, 2);
 	lua_pushinteger(L, vline(ch[0], n));
+	return 1;
+}
+
+
+/*
+ * result = wstandend(window)
+ */
+static int
+curses_wstandend(lua_State *L)
+{
+	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	lua_pushinteger(L, wstandend(*window));
+	return 1;
+}
+
+
+/*
+ * result = wstandout(window)
+ */
+static int
+curses_wstandout(lua_State *L)
+{
+	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	lua_pushinteger(L, wstandout(*window));
 	return 1;
 }
 
@@ -347,7 +397,11 @@ luaopen_curses(lua_State *L)
 		{"refresh", curses_refresh},
 		{"scroll", curses_scroll},
 		{"scrollok", curses_scrollok},
+		{"standend", curses_standend},
+		{"standout", curses_standout},
 		{"vline", curses_vline},
+		{"wstandend", curses_wstandend},
+		{"wstandout", curses_wstandout},
 		{NULL, NULL},
 	};
 
