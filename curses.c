@@ -21,9 +21,16 @@ static int curses_echo(lua_State *L);
 static int curses_endwin(lua_State *L);
 static int curses_filter(lua_State *L);
 static int curses_flash(lua_State *L);
+static int curses_getbegx(lua_State *L);
+static int curses_getbegy(lua_State *L);
 static int curses_getch(lua_State *L);
 static int curses_getcurx(lua_State *L);
 static int curses_getcury(lua_State *L);
+static int curses_getmaxx(lua_State *L);
+static int curses_getmaxy(lua_State *L);
+static int curses_getparx(lua_State *L);
+static int curses_getpary(lua_State *L);
+static int curses_getsyx(lua_State *L);
 static int curses_halfdelay(lua_State *L);
 static int curses_has_colors(lua_State *L);
 static int curses_has_ic(lua_State *L);
@@ -34,6 +41,7 @@ static int curses_isendwin(lua_State *L);
 static int curses_meta(lua_State *L);
 static int curses_move(lua_State *L);
 static int curses_mvaddstr(lua_State *L);
+static int curses_mvcur(lua_State *L);
 static int curses_nl(lua_State *L);
 static int curses_nocbreak(lua_State *L);
 static int curses_noecho(lua_State *L);
@@ -45,6 +53,7 @@ static int curses_resize_term(lua_State *L);
 static int curses_resizeterm(lua_State *L);
 static int curses_scroll(lua_State *L);
 static int curses_scrollok(lua_State *L);
+static int curses_setsyx(lua_State *L);
 static int curses_standend(lua_State *L);
 static int curses_standout(lua_State *L);
 static int curses_vline(lua_State *L);
@@ -189,7 +198,31 @@ curses_flash(lua_State *L)
 	return 1;
 }
 
+
+/*
+ * x = getbegx(window)
+ */
+static int
+curses_getbegx(lua_State *L)
+{
+	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	lua_pushinteger(L, getbegx(*window));
+	return 1;
+}
+
+
+/*
+ * y = getbegy(window)
+ */
+static int
+curses_getbegy(lua_State *L)
+{
+	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	lua_pushinteger(L, getbegy(*window));
+	return 1;
+}
  
+
 /*
  * result = getch()
  */
@@ -222,6 +255,69 @@ curses_getcury(lua_State *L)
 	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
 	lua_pushinteger(L, getcury(*window));
 	return 1;
+}
+
+
+/*
+ * x = getmaxx(window)
+ */
+static int
+curses_getmaxx(lua_State *L)
+{
+	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	lua_pushinteger(L, getmaxx(*window));
+	return 1;
+}
+
+
+/*
+ * y = getmaxy(window)
+ */
+static int
+curses_getmaxy(lua_State *L)
+{
+	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	lua_pushinteger(L, getmaxy(*window));
+	return 1;
+}
+
+
+/*
+ * x = getparx(window)
+ */
+static int
+curses_getparx(lua_State *L)
+{
+	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	lua_pushinteger(L, getparx(*window));
+	return 1;
+}
+
+
+/*
+ * y = getpary(window)
+ */
+static int
+curses_getpary(lua_State *L)
+{
+	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	lua_pushinteger(L, getpary(*window));
+	return 1;
+}
+
+
+/*
+ * y, x = getsyx()
+ */
+static int
+curses_getsyx(lua_State *L)
+{
+	int y;
+	int x;
+	getsyx(y, x);
+	lua_pushinteger(L, y);
+	lua_pushinteger(L, x);
+	return 2;
 }
 
 
@@ -345,6 +441,21 @@ curses_mvaddstr(lua_State *L)
 	int x = luaL_checkinteger(L, 2);
 	const char *string = luaL_checkstring(L, 3);
 	lua_pushinteger(L, mvaddstr(y, x, string));
+	return 1;
+}
+
+
+/*
+ * result = mvcur(oldy, oldx, y, x)
+ */
+static int
+curses_mvcur(lua_State *L)
+{
+	int oldy = luaL_checkinteger(L, 1);
+	int oldx = luaL_checkinteger(L, 2);
+	int y = luaL_checkinteger(L, 3);
+	int x = luaL_checkinteger(L, 4);
+	lua_pushinteger(L, mvcur(oldy, oldx, y, x));
 	return 1;
 }
 
@@ -478,6 +589,19 @@ curses_scrollok(lua_State *L)
 
 
 /*
+ * setsyx(y, x)
+ */
+static int
+curses_setsyx(lua_State *L)
+{
+	int y = luaL_checkinteger(L, 1);
+	int x = luaL_checkinteger(L, 2);
+	setsyx(y, x);
+	return 0;
+}
+
+
+/*
  * result = standend()
  */
 static int
@@ -575,9 +699,16 @@ luaopen_curses(lua_State *L)
 		{"endwin", curses_endwin},
 		{"filter", curses_filter},
 		{"flash", curses_flash},
+		{"getbegx", curses_getbegx},
+		{"getbegy", curses_getbegy},
 		{"getch", curses_getch},
 		{"getcurx", curses_getcurx},
 		{"getcury", curses_getcury},
+		{"getmaxx", curses_getmaxx},
+		{"getmaxy", curses_getmaxy},
+		{"getparx", curses_getparx},
+		{"getpary", curses_getpary},
+		{"getsyx", curses_getsyx},
 		{"halfdelay", curses_halfdelay},
 		{"has_colors", curses_has_colors},
 		{"has_ic", curses_has_ic},
@@ -588,6 +719,7 @@ luaopen_curses(lua_State *L)
 		{"meta", curses_meta},
 		{"move", curses_move},
 		{"mvaddstr", curses_mvaddstr},
+		{"mvcur", curses_mvcur},
 		{"nl", curses_nl},
 		{"nocbreak", curses_nocbreak},
 		{"noecho", curses_noecho},
@@ -599,6 +731,7 @@ luaopen_curses(lua_State *L)
 		{"resizeterm", curses_resizeterm},
 		{"scroll", curses_scroll},
 		{"scrollok", curses_scrollok},
+		{"setsyx", curses_setsyx},
 		{"standend", curses_standend},
 		{"standout", curses_standout},
 		{"vline", curses_vline},
