@@ -9,64 +9,65 @@
 
 int luaopen_curses(lua_State *L);
 
-static int curses_addch(lua_State *L);
-static int curses_addstr(lua_State *L);
-static int curses_baudrate(lua_State *L);
-static int curses_beep(lua_State *L);
-static int curses_box(lua_State *L);
-static int curses_cbreak(lua_State *L);
-static int curses_clear(lua_State *L);
-static int curses_curs_set(lua_State *L);
-static int curses_echo(lua_State *L);
-static int curses_endwin(lua_State *L);
-static int curses_filter(lua_State *L);
-static int curses_flash(lua_State *L);
-static int curses_getbegx(lua_State *L);
-static int curses_getbegy(lua_State *L);
-static int curses_getch(lua_State *L);
-static int curses_getcurx(lua_State *L);
-static int curses_getcury(lua_State *L);
-static int curses_getmaxx(lua_State *L);
-static int curses_getmaxy(lua_State *L);
-static int curses_getparx(lua_State *L);
-static int curses_getpary(lua_State *L);
-static int curses_getsyx(lua_State *L);
-static int curses_halfdelay(lua_State *L);
-static int curses_has_colors(lua_State *L);
-static int curses_has_ic(lua_State *L);
-static int curses_hline(lua_State *L);
-static int curses_initscr(lua_State *L);
-static int curses_insch(lua_State *L);
-static int curses_isendwin(lua_State *L);
-static int curses_meta(lua_State *L);
-static int curses_move(lua_State *L);
-static int curses_mvaddstr(lua_State *L);
-static int curses_mvcur(lua_State *L);
-static int curses_nl(lua_State *L);
-static int curses_nocbreak(lua_State *L);
-static int curses_noecho(lua_State *L);
-static int curses_nonl(lua_State *L);
-static int curses_noraw(lua_State *L);
-static int curses_raw(lua_State *L);
-static int curses_refresh(lua_State *L);
-static int curses_resize_term(lua_State *L);
-static int curses_resizeterm(lua_State *L);
-static int curses_scroll(lua_State *L);
-static int curses_scrollok(lua_State *L);
-static int curses_setsyx(lua_State *L);
-static int curses_standend(lua_State *L);
-static int curses_standout(lua_State *L);
-static int curses_vline(lua_State *L);
-static int curses_wstandend(lua_State *L);
-static int curses_wstandout(lua_State *L);
+#define DECLARE(x) static int curses_##x(lua_State *L)
+
+DECLARE(addch);
+DECLARE(addstr);
+DECLARE(baudrate);
+DECLARE(beep);
+DECLARE(box);
+DECLARE(cbreak);
+DECLARE(clear);
+DECLARE(curs_set);
+DECLARE(echo);
+DECLARE(endwin);
+DECLARE(filter);
+DECLARE(flash);
+DECLARE(getbegx);
+DECLARE(getbegy);
+DECLARE(getch);
+DECLARE(getcurx);
+DECLARE(getcury);
+DECLARE(getmaxx);
+DECLARE(getmaxy);
+DECLARE(getparx);
+DECLARE(getpary);
+DECLARE(getsyx);
+DECLARE(halfdelay);
+DECLARE(has_colors);
+DECLARE(has_ic);
+DECLARE(hline);
+DECLARE(initscr);
+DECLARE(insch);
+DECLARE(isendwin);
+DECLARE(meta);
+DECLARE(move);
+DECLARE(mvaddstr);
+DECLARE(mvcur);
+DECLARE(nl);
+DECLARE(nocbreak);
+DECLARE(noecho);
+DECLARE(nonl);
+DECLARE(noraw);
+DECLARE(raw);
+DECLARE(refresh);
+DECLARE(resize_term);
+DECLARE(resizeterm);
+DECLARE(scroll);
+DECLARE(scrollok);
+DECLARE(setsyx);
+DECLARE(standend);
+DECLARE(standout);
+DECLARE(vline);
+DECLARE(wstandend);
+DECLARE(wstandout);
 
 /* ********** */
 
 /*
  * result = addch(ch)
  */
-static int
-curses_addch(lua_State *L)
+DECLARE(addch)
 {
 	const char *ch = luaL_checkstring(L, 1);
 	lua_pushinteger(L, addch(ch[0]));
@@ -77,8 +78,7 @@ curses_addch(lua_State *L)
 /*
  * result = addstr(string)
  */
-static int
-curses_addstr(lua_State *L)
+DECLARE(addstr)
 {
 	const char *string = luaL_checkstring(L, 1);
 	lua_pushinteger(L, addstr(string));
@@ -89,8 +89,7 @@ curses_addstr(lua_State *L)
 /*
  * bits_per_second = baudrate()
  */
-static int
-curses_baudrate(lua_State *L)
+DECLARE(baudrate)
 {
 	lua_pushinteger(L, baudrate());
 	return 1;
@@ -100,7 +99,7 @@ curses_baudrate(lua_State *L)
 /*
  * result = beep()
  */
-static int curses_beep(lua_State *L)
+DECLARE(beep)
 {
 	lua_pushinteger(L, beep());
 	return 1;
@@ -110,8 +109,7 @@ static int curses_beep(lua_State *L)
 /*
  * result = box(window, vertical, horizontal)
  */
-static int
-curses_box(lua_State *L)
+DECLARE(box)
 {
 	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
 	const char *vert = luaL_checkstring(L, 2);
@@ -124,8 +122,7 @@ curses_box(lua_State *L)
 /*
  * result = cbreak()
  */
-static int
-curses_cbreak(lua_State *L)
+DECLARE(cbreak)
 {
 	lua_pushinteger(L, cbreak());
 	return 1;
@@ -135,8 +132,7 @@ curses_cbreak(lua_State *L)
 /*
  * result = clear()
  */
-static int
-curses_clear(lua_State *L)
+DECLARE(clear)
 {
 	lua_pushinteger(L, clear());
 	return 1;
@@ -146,8 +142,7 @@ curses_clear(lua_State *L)
 /*
  * result = curs_set(visibility)
  */
-static int
-curses_curs_set(lua_State *L)
+DECLARE(curs_set)
 {
 	int visibility = luaL_checkinteger(L, 1);
 	lua_pushinteger(L, curs_set(visibility));
@@ -158,8 +153,7 @@ curses_curs_set(lua_State *L)
 /*
  * result = echo()
  */
-static int
-curses_echo(lua_State *L)
+DECLARE(echo)
 {
 	lua_pushinteger(L, echo());
 	return 1;
@@ -169,8 +163,7 @@ curses_echo(lua_State *L)
 /*
  * result = endwin()
  */
-static int
-curses_endwin(lua_State *L)
+DECLARE(endwin)
 {
 	lua_pushinteger(L, endwin());
 	return 1;
@@ -180,8 +173,7 @@ curses_endwin(lua_State *L)
 /*
  * filter()
  */
-static int
-curses_filter(lua_State *L)
+DECLARE(filter)
 {
 	filter();
 	return 0;
@@ -191,8 +183,7 @@ curses_filter(lua_State *L)
 /*
  * result = flash()
  */
-static int
-curses_flash(lua_State *L)
+DECLARE(flash)
 {
 	lua_pushinteger(L, flash());
 	return 1;
@@ -202,8 +193,7 @@ curses_flash(lua_State *L)
 /*
  * x = getbegx(window)
  */
-static int
-curses_getbegx(lua_State *L)
+DECLARE(getbegx)
 {
 	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
 	lua_pushinteger(L, getbegx(*window));
@@ -214,8 +204,7 @@ curses_getbegx(lua_State *L)
 /*
  * y = getbegy(window)
  */
-static int
-curses_getbegy(lua_State *L)
+DECLARE(getbegy)
 {
 	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
 	lua_pushinteger(L, getbegy(*window));
@@ -226,8 +215,7 @@ curses_getbegy(lua_State *L)
 /*
  * result = getch()
  */
-static int
-curses_getch(lua_State *L)
+DECLARE(getch)
 {
 	lua_pushinteger(L, getch());
 	return 1;
@@ -237,8 +225,7 @@ curses_getch(lua_State *L)
 /*
  * x = getcurx(window)
  */
-static int
-curses_getcurx(lua_State *L)
+DECLARE(getcurx)
 {
 	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
 	lua_pushinteger(L, getcurx(*window));
@@ -249,8 +236,7 @@ curses_getcurx(lua_State *L)
 /*
  * y = getcury(window)
  */
-static int
-curses_getcury(lua_State *L)
+DECLARE(getcury)
 {
 	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
 	lua_pushinteger(L, getcury(*window));
@@ -261,8 +247,7 @@ curses_getcury(lua_State *L)
 /*
  * x = getmaxx(window)
  */
-static int
-curses_getmaxx(lua_State *L)
+DECLARE(getmaxx)
 {
 	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
 	lua_pushinteger(L, getmaxx(*window));
@@ -273,8 +258,7 @@ curses_getmaxx(lua_State *L)
 /*
  * y = getmaxy(window)
  */
-static int
-curses_getmaxy(lua_State *L)
+DECLARE(getmaxy)
 {
 	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
 	lua_pushinteger(L, getmaxy(*window));
@@ -285,8 +269,7 @@ curses_getmaxy(lua_State *L)
 /*
  * x = getparx(window)
  */
-static int
-curses_getparx(lua_State *L)
+DECLARE(getparx)
 {
 	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
 	lua_pushinteger(L, getparx(*window));
@@ -297,8 +280,7 @@ curses_getparx(lua_State *L)
 /*
  * y = getpary(window)
  */
-static int
-curses_getpary(lua_State *L)
+DECLARE(getpary)
 {
 	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
 	lua_pushinteger(L, getpary(*window));
@@ -309,8 +291,7 @@ curses_getpary(lua_State *L)
 /*
  * y, x = getsyx()
  */
-static int
-curses_getsyx(lua_State *L)
+DECLARE(getsyx)
 {
 	int y;
 	int x;
@@ -324,8 +305,7 @@ curses_getsyx(lua_State *L)
 /*
  * result = halfdelay(count)
  */
-static int
-curses_halfdelay(lua_State *L)
+DECLARE(halfdelay)
 {
 	int count = luaL_checkinteger(L, 1);
 	lua_pushinteger(L, halfdelay(count));
@@ -336,8 +316,7 @@ curses_halfdelay(lua_State *L)
 /*
  * result = has_colors()
  */
-static int
-curses_has_colors(lua_State *L)
+DECLARE(has_colors)
 {
 	lua_pushboolean(L, has_colors());
 	return 1;
@@ -347,8 +326,7 @@ curses_has_colors(lua_State *L)
 /*
  * bool = has_ic()
  */
-static int
-curses_has_ic(lua_State *L)
+DECLARE(has_ic)
 {
 	lua_pushboolean(L, has_ic());
 	return 1;
@@ -358,8 +336,7 @@ curses_has_ic(lua_State *L)
 /*
  * result = hline(char, n)
  */
-static int
-curses_hline(lua_State *L)
+DECLARE(hline)
 {
 	const char *ch = luaL_checkstring(L, 1);
 	int n = luaL_checkinteger(L, 2);
@@ -371,8 +348,7 @@ curses_hline(lua_State *L)
 /*
  * window = initscr()
  */
-static int
-curses_initscr(lua_State *L)
+DECLARE(initscr)
 {
 	WINDOW **window = lua_newuserdata(L, sizeof(WINDOW*));
 	luaL_setmetatable(L, "WINDOW");
@@ -384,8 +360,7 @@ curses_initscr(lua_State *L)
 /*
  * result = insch(char)
  */
-static int
-curses_insch(lua_State *L)
+DECLARE(insch)
 {
 	const char *str = luaL_checkstring(L, 1);
 	lua_pushinteger(L, insch(str[0]));
@@ -396,8 +371,7 @@ curses_insch(lua_State *L)
 /*
  * bool = isendwin()
  */
-static int
-curses_isendwin(lua_State *L)
+DECLARE(isendwin)
 {
 	lua_pushboolean(L, isendwin());
 	return 1;
@@ -407,8 +381,7 @@ curses_isendwin(lua_State *L)
 /*
  * result = meta(window, bool)
  */
-static int
-curses_meta(lua_State *L)
+DECLARE(meta)
 {
 	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
 	luaL_checktype(L, 2, LUA_TBOOLEAN);
@@ -421,8 +394,7 @@ curses_meta(lua_State *L)
 /*
  * result = move(y, x)
  */
-static int
-curses_move(lua_State *L)
+DECLARE(move)
 {
 	int y = luaL_checkinteger(L, 1);
 	int x = luaL_checkinteger(L, 2);
@@ -434,8 +406,7 @@ curses_move(lua_State *L)
 /*
  * result = mvaddstr(y, x, string)
  */
-static int
-curses_mvaddstr(lua_State *L)
+DECLARE(mvaddstr)
 {
 	int y = luaL_checkinteger(L, 1);
 	int x = luaL_checkinteger(L, 2);
@@ -448,8 +419,7 @@ curses_mvaddstr(lua_State *L)
 /*
  * result = mvcur(oldy, oldx, y, x)
  */
-static int
-curses_mvcur(lua_State *L)
+DECLARE(mvcur)
 {
 	int oldy = luaL_checkinteger(L, 1);
 	int oldx = luaL_checkinteger(L, 2);
@@ -463,8 +433,7 @@ curses_mvcur(lua_State *L)
 /*
  * result = nl()
  */
-static int
-curses_nl(lua_State *L)
+DECLARE(nl)
 {
 	lua_pushinteger(L, nl());
 	return 1;
@@ -474,8 +443,7 @@ curses_nl(lua_State *L)
 /*
  * result = nocbreak()
  */
-static int
-curses_nocbreak(lua_State *L)
+DECLARE(nocbreak)
 {
 	lua_pushinteger(L, nocbreak());
 	return 1;
@@ -485,8 +453,7 @@ curses_nocbreak(lua_State *L)
 /*
  * result = noecho()
  */
-static int
-curses_noecho(lua_State *L)
+DECLARE(noecho)
 {
 	lua_pushinteger(L, noecho());
 	return 1;
@@ -496,8 +463,7 @@ curses_noecho(lua_State *L)
 /*
  * result = nonl()
  */
-static int
-curses_nonl(lua_State *L)
+DECLARE(nonl)
 {
 	lua_pushinteger(L, nonl());
 	return 1;
@@ -507,8 +473,7 @@ curses_nonl(lua_State *L)
 /*
  * result = noraw()
  */
-static int
-curses_noraw(lua_State *L)
+DECLARE(noraw)
 {
 	lua_pushinteger(L, noraw());
 	return 1;
@@ -518,8 +483,7 @@ curses_noraw(lua_State *L)
 /*
  * result = raw()
  */
-static int
-curses_raw(lua_State *L)
+DECLARE(raw)
 {
 	lua_pushinteger(L, raw());
 	return 1;
@@ -529,8 +493,7 @@ curses_raw(lua_State *L)
 /*
  * result = refresh()
  */
-static int
-curses_refresh(lua_State *L)
+DECLARE(refresh)
 {
 	lua_pushinteger(L, refresh());
 	return 1;
@@ -540,7 +503,7 @@ curses_refresh(lua_State *L)
 /*
  * result = resize_term(lines, cols)
  */
-static int curses_resize_term(lua_State *L)
+DECLARE(resize_term)
 {
 	int lines = luaL_checkinteger(L, 1);
 	int cols = luaL_checkinteger(L, 2);
@@ -552,8 +515,7 @@ static int curses_resize_term(lua_State *L)
 /*
  * resizeterm(lines, cols)
  */
-static int
-curses_resizeterm(lua_State *L)
+DECLARE(resizeterm)
 {
 	int lines = luaL_checkinteger(L, 1);
 	int cols = luaL_checkinteger(L, 2);
@@ -565,8 +527,7 @@ curses_resizeterm(lua_State *L)
 /*
  * result = scroll(window)
  */
-static int
-curses_scroll(lua_State *L)
+DECLARE(scroll)
 {
 	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
 	lua_pushinteger(L, scroll(*window));
@@ -577,8 +538,7 @@ curses_scroll(lua_State *L)
 /*
  * result = scrollok(window, bool)
  */
-static int
-curses_scrollok(lua_State *L)
+DECLARE(scrollok)
 {
 	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
 	luaL_checktype(L, 2, LUA_TBOOLEAN);
@@ -591,8 +551,7 @@ curses_scrollok(lua_State *L)
 /*
  * setsyx(y, x)
  */
-static int
-curses_setsyx(lua_State *L)
+DECLARE(setsyx)
 {
 	int y = luaL_checkinteger(L, 1);
 	int x = luaL_checkinteger(L, 2);
@@ -604,8 +563,7 @@ curses_setsyx(lua_State *L)
 /*
  * result = standend()
  */
-static int
-curses_standend(lua_State *L)
+DECLARE(standend)
 {
 	lua_pushinteger(L, standend());
 	return 1;
@@ -615,8 +573,7 @@ curses_standend(lua_State *L)
 /*
  * result = standout()
  */
-static int
-curses_standout(lua_State *L)
+DECLARE(standout)
 {
 	lua_pushinteger(L, standout());
 	return 1;
@@ -626,8 +583,7 @@ curses_standout(lua_State *L)
 /*
  * result = vline(char, n)
  */
-static int
-curses_vline(lua_State *L)
+DECLARE(vline)
 {
 	const char *ch = luaL_checkstring(L, 1);
 	int n = luaL_checkinteger(L, 2);
@@ -639,8 +595,7 @@ curses_vline(lua_State *L)
 /*
  * result = wstandend(window)
  */
-static int
-curses_wstandend(lua_State *L)
+DECLARE(wstandend)
 {
 	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
 	lua_pushinteger(L, wstandend(*window));
@@ -651,13 +606,14 @@ curses_wstandend(lua_State *L)
 /*
  * result = wstandout(window)
  */
-static int
-curses_wstandout(lua_State *L)
+DECLARE(wstandout)
 {
 	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
 	lua_pushinteger(L, wstandout(*window));
 	return 1;
 }
+
+#undef DECLARE
 
 /* ********** */
 
@@ -666,79 +622,102 @@ luaopen_curses(lua_State *L)
 {
 	luaL_newmetatable(L, "WINDOW");
 
+#define CONSTANT(x) {#x, x}
+
 	struct {
 		const char *name;
 		int value;
 	} constants[] = {
-		{"COLOR_BLACK", COLOR_BLACK},
-		{"COLOR_RED", COLOR_RED},
-		{"COLOR_GREEN", COLOR_GREEN},
-		{"COLOR_YELLOW", COLOR_YELLOW},
-		{"COLOR_BLUE", COLOR_BLUE},
-		{"COLOR_MAGENTA", COLOR_MAGENTA},
-		{"COLOR_CYAN", COLOR_CYAN},
-		{"COLOR_WHITE", COLOR_WHITE},
+		CONSTANT(A_ALTCHARSET),
+		CONSTANT(A_ATTRIBUTES),
+		CONSTANT(A_BLANK),
+		CONSTANT(A_BLINK),
+		CONSTANT(A_BOLD),
+		CONSTANT(A_CHARTEXT),
+		CONSTANT(A_COLOR),
+		CONSTANT(A_DIM),
+		CONSTANT(A_INVIS),
+		CONSTANT(A_NORMAL),
+		CONSTANT(A_PROTECT),
+		CONSTANT(A_REVERSE),
+		CONSTANT(A_STANDOUT),
+		CONSTANT(A_UNDERLINE),
+		CONSTANT(COLOR_BLACK),
+		CONSTANT(COLOR_BLUE),
+		CONSTANT(COLOR_CYAN),
+		CONSTANT(COLOR_GREEN),
+		CONSTANT(COLOR_MAGENTA),
+		CONSTANT(COLOR_RED),
+		CONSTANT(COLOR_WHITE),
+		CONSTANT(COLOR_YELLOW),
 		{NULL, 0},
 	};
+
+#undef CONSTANT
 
 	for (int i = 0; constants[i].name; i++) {
 		lua_pushinteger(L, constants[i].value);
 		lua_setglobal(L, constants[i].name);
 	}
 
+
+#define BINDING(x) {#x, curses_##x}
+
 	struct luaL_Reg functions[] = {
-		{"addch", curses_addch},
-		{"addstr", curses_addstr},
-		{"baudrate", curses_baudrate},
-		{"beep", curses_beep},
-		{"box", curses_box},
-		{"cbreak", curses_cbreak},
-		{"clear", curses_clear},
-		{"curs_set", curses_curs_set},
-		{"echo", curses_echo},
-		{"endwin", curses_endwin},
-		{"filter", curses_filter},
-		{"flash", curses_flash},
-		{"getbegx", curses_getbegx},
-		{"getbegy", curses_getbegy},
-		{"getch", curses_getch},
-		{"getcurx", curses_getcurx},
-		{"getcury", curses_getcury},
-		{"getmaxx", curses_getmaxx},
-		{"getmaxy", curses_getmaxy},
-		{"getparx", curses_getparx},
-		{"getpary", curses_getpary},
-		{"getsyx", curses_getsyx},
-		{"halfdelay", curses_halfdelay},
-		{"has_colors", curses_has_colors},
-		{"has_ic", curses_has_ic},
-		{"hline", curses_hline},
-		{"initscr", curses_initscr},
-		{"insch", curses_insch},
-		{"isendwin", curses_isendwin},
-		{"meta", curses_meta},
-		{"move", curses_move},
-		{"mvaddstr", curses_mvaddstr},
-		{"mvcur", curses_mvcur},
-		{"nl", curses_nl},
-		{"nocbreak", curses_nocbreak},
-		{"noecho", curses_noecho},
-		{"nonl", curses_nonl},
-		{"noraw", curses_noraw},
-		{"raw", curses_raw},
-		{"refresh", curses_refresh},
-		{"resize_term", curses_resize_term},
-		{"resizeterm", curses_resizeterm},
-		{"scroll", curses_scroll},
-		{"scrollok", curses_scrollok},
-		{"setsyx", curses_setsyx},
-		{"standend", curses_standend},
-		{"standout", curses_standout},
-		{"vline", curses_vline},
-		{"wstandend", curses_wstandend},
-		{"wstandout", curses_wstandout},
+		BINDING(addch),
+		BINDING(addstr),
+		BINDING(baudrate),
+		BINDING(beep),
+		BINDING(box),
+		BINDING(cbreak),
+		BINDING(clear),
+		BINDING(curs_set),
+		BINDING(echo),
+		BINDING(endwin),
+		BINDING(filter),
+		BINDING(flash),
+		BINDING(getbegx),
+		BINDING(getbegy),
+		BINDING(getch),
+		BINDING(getcurx),
+		BINDING(getcury),
+		BINDING(getmaxx),
+		BINDING(getmaxy),
+		BINDING(getparx),
+		BINDING(getpary),
+		BINDING(getsyx),
+		BINDING(halfdelay),
+		BINDING(has_colors),
+		BINDING(has_ic),
+		BINDING(hline),
+		BINDING(initscr),
+		BINDING(insch),
+		BINDING(isendwin),
+		BINDING(meta),
+		BINDING(move),
+		BINDING(mvaddstr),
+		BINDING(mvcur),
+		BINDING(nl),
+		BINDING(nocbreak),
+		BINDING(noecho),
+		BINDING(nonl),
+		BINDING(noraw),
+		BINDING(raw),
+		BINDING(refresh),
+		BINDING(resize_term),
+		BINDING(resizeterm),
+		BINDING(scroll),
+		BINDING(scrollok),
+		BINDING(setsyx),
+		BINDING(standend),
+		BINDING(standout),
+		BINDING(vline),
+		BINDING(wstandend),
+		BINDING(wstandout),
 		{NULL, NULL},
 	};
+
+#undef BINDING
 
 #if LUA_VERSION_NUM >= 502
 	luaL_newlib(L, functions);
