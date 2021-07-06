@@ -10,6 +10,7 @@
 int luaopen_curses(lua_State *L);
 
 #define DECLARE(x) static int curses_##x(lua_State *L)
+#define WINDOW_LTYPE "WINDOW"
 
 DECLARE(addch);
 DECLARE(addstr);
@@ -111,7 +112,7 @@ DECLARE(beep)
  */
 DECLARE(box)
 {
-	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
 	const char *vert = luaL_checkstring(L, 2);
 	const char *horiz = luaL_checkstring(L, 3);
 	lua_pushinteger(L, box(*window, vert[0], horiz[0]));
@@ -195,7 +196,7 @@ DECLARE(flash)
  */
 DECLARE(getbegx)
 {
-	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
 	lua_pushinteger(L, getbegx(*window));
 	return 1;
 }
@@ -206,7 +207,7 @@ DECLARE(getbegx)
  */
 DECLARE(getbegy)
 {
-	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
 	lua_pushinteger(L, getbegy(*window));
 	return 1;
 }
@@ -227,7 +228,7 @@ DECLARE(getch)
  */
 DECLARE(getcurx)
 {
-	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
 	lua_pushinteger(L, getcurx(*window));
 	return 1;
 }
@@ -238,7 +239,7 @@ DECLARE(getcurx)
  */
 DECLARE(getcury)
 {
-	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
 	lua_pushinteger(L, getcury(*window));
 	return 1;
 }
@@ -249,7 +250,7 @@ DECLARE(getcury)
  */
 DECLARE(getmaxx)
 {
-	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
 	lua_pushinteger(L, getmaxx(*window));
 	return 1;
 }
@@ -260,7 +261,7 @@ DECLARE(getmaxx)
  */
 DECLARE(getmaxy)
 {
-	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
 	lua_pushinteger(L, getmaxy(*window));
 	return 1;
 }
@@ -271,7 +272,7 @@ DECLARE(getmaxy)
  */
 DECLARE(getparx)
 {
-	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
 	lua_pushinteger(L, getparx(*window));
 	return 1;
 }
@@ -282,7 +283,7 @@ DECLARE(getparx)
  */
 DECLARE(getpary)
 {
-	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
 	lua_pushinteger(L, getpary(*window));
 	return 1;
 }
@@ -351,7 +352,7 @@ DECLARE(hline)
 DECLARE(initscr)
 {
 	WINDOW **window = lua_newuserdata(L, sizeof(WINDOW*));
-	luaL_setmetatable(L, "WINDOW");
+	luaL_setmetatable(L, WINDOW_LTYPE);
 	*window = initscr();
 	return 1;
 }
@@ -383,7 +384,7 @@ DECLARE(isendwin)
  */
 DECLARE(meta)
 {
-	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
 	luaL_checktype(L, 2, LUA_TBOOLEAN);
 	bool flag = lua_toboolean(L, 2);
 	lua_pushinteger(L, meta(*window, flag));
@@ -529,7 +530,7 @@ DECLARE(resizeterm)
  */
 DECLARE(scroll)
 {
-	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
 	lua_pushinteger(L, scroll(*window));
 	return 1;
 }
@@ -540,7 +541,7 @@ DECLARE(scroll)
  */
 DECLARE(scrollok)
 {
-	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
 	luaL_checktype(L, 2, LUA_TBOOLEAN);
 	bool flag = lua_toboolean(L, 2); 
 	lua_pushinteger(L, scrollok(*window, flag));
@@ -597,7 +598,7 @@ DECLARE(vline)
  */
 DECLARE(wstandend)
 {
-	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
 	lua_pushinteger(L, wstandend(*window));
 	return 1;
 }
@@ -608,7 +609,7 @@ DECLARE(wstandend)
  */
 DECLARE(wstandout)
 {
-	WINDOW **window = luaL_checkudata(L, 1, "WINDOW");
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
 	lua_pushinteger(L, wstandout(*window));
 	return 1;
 }
@@ -620,7 +621,7 @@ DECLARE(wstandout)
 int
 luaopen_curses(lua_State *L)
 {
-	luaL_newmetatable(L, "WINDOW");
+	luaL_newmetatable(L, WINDOW_LTYPE);
 
 #define CONSTANT(x) {#x, x}
 
