@@ -14,6 +14,8 @@ int luaopen_curses(lua_State *L);
 
 DECLARE(addch);
 DECLARE(addstr);
+DECLARE(attroff);
+DECLARE(attron);
 DECLARE(baudrate);
 DECLARE(beep);
 DECLARE(box);
@@ -22,6 +24,7 @@ DECLARE(clear);
 DECLARE(curs_set);
 DECLARE(echo);
 DECLARE(endwin);
+DECLARE(erase);
 DECLARE(filter);
 DECLARE(flash);
 DECLARE(getbegx);
@@ -54,11 +57,14 @@ DECLARE(raw);
 DECLARE(refresh);
 DECLARE(resize_term);
 DECLARE(resizeterm);
+DECLARE(scrl);
 DECLARE(scroll);
 DECLARE(scrollok);
 DECLARE(setsyx);
 DECLARE(standend);
 DECLARE(standout);
+DECLARE(underend);
+DECLARE(underscore);
 DECLARE(vline);
 DECLARE(wstandend);
 DECLARE(wstandout);
@@ -83,6 +89,28 @@ DECLARE(addstr)
 {
 	const char *string = luaL_checkstring(L, 1);
 	lua_pushinteger(L, addstr(string));
+	return 1;
+}
+
+
+/*
+ * result = attroff(attr)
+ */
+DECLARE(attroff)
+{
+	int attr = luaL_checkinteger(L, 1);
+	lua_pushinteger(L, attroff(attr));
+	return 1;
+}
+
+
+/*
+ * result = attron(attr)
+ */
+DECLARE(attron)
+{
+	int attr = luaL_checkinteger(L, 1);
+	lua_pushinteger(L, attron(attr));
 	return 1;
 }
 
@@ -167,6 +195,16 @@ DECLARE(echo)
 DECLARE(endwin)
 {
 	lua_pushinteger(L, endwin());
+	return 1;
+}
+
+
+/*
+ * result = erase()
+ */
+DECLARE(erase)
+{
+	lua_pushinteger(L, erase());
 	return 1;
 }
 
@@ -526,6 +564,17 @@ DECLARE(resizeterm)
 
 
 /*
+ * result = scrl(n)
+ */
+DECLARE(scrl)
+{
+	int n = luaL_checkinteger(L, 1);
+	lua_pushinteger(L, scrl(n));
+	return 1;
+}
+
+
+/*
  * result = scroll(window)
  */
 DECLARE(scroll)
@@ -577,6 +626,26 @@ DECLARE(standend)
 DECLARE(standout)
 {
 	lua_pushinteger(L, standout());
+	return 1;
+}
+
+
+/*
+ * result = underend()
+ */
+DECLARE(underend)
+{
+	lua_pushinteger(L, underend());
+	return 1;
+}
+
+
+/*
+ * result = underscore()
+ */
+DECLARE(underscore)
+{
+	lua_pushinteger(L, underscore());
 	return 1;
 }
 
@@ -667,6 +736,8 @@ luaopen_curses(lua_State *L)
 	struct luaL_Reg functions[] = {
 		BINDING(addch),
 		BINDING(addstr),
+		BINDING(attroff),
+		BINDING(attron),
 		BINDING(baudrate),
 		BINDING(beep),
 		BINDING(box),
@@ -675,6 +746,7 @@ luaopen_curses(lua_State *L)
 		BINDING(curs_set),
 		BINDING(echo),
 		BINDING(endwin),
+		BINDING(erase),
 		BINDING(filter),
 		BINDING(flash),
 		BINDING(getbegx),
@@ -707,11 +779,14 @@ luaopen_curses(lua_State *L)
 		BINDING(refresh),
 		BINDING(resize_term),
 		BINDING(resizeterm),
+		BINDING(scrl),
 		BINDING(scroll),
 		BINDING(scrollok),
 		BINDING(setsyx),
 		BINDING(standend),
 		BINDING(standout),
+		BINDING(underend),
+		BINDING(underscore),
 		BINDING(vline),
 		BINDING(wstandend),
 		BINDING(wstandout),
