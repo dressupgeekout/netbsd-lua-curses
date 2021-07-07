@@ -104,40 +104,40 @@ typedef chtype cchar_t;
 
 
 /* symbols for values returned by getch in keypad mode */
-#define    KEY_MIN        0x101    /* minimum extended key value */
-#define    KEY_BREAK      0x101    /* break key */
-#define    KEY_DOWN       0x102    /* down arrow */
-#define    KEY_UP         0x103    /* up arrow */
-#define    KEY_LEFT       0x104    /* left arrow */
-#define    KEY_RIGHT      0x105    /* right arrow*/
-#define    KEY_HOME       0x106    /* home key */
-#define    KEY_BACKSPACE  0x107    /* Backspace */
+//!#define    KEY_MIN        0x101    /* minimum extended key value */
+//!#define    KEY_BREAK      0x101    /* break key */
+//!#define    KEY_DOWN       0x102    /* down arrow */
+//!#define    KEY_UP         0x103    /* up arrow */
+//!#define    KEY_LEFT       0x104    /* left arrow */
+//!#define    KEY_RIGHT      0x105    /* right arrow*/
+//!#define    KEY_HOME       0x106    /* home key */
+//!#define    KEY_BACKSPACE  0x107    /* Backspace */
 
 /* First function key (block of 64 follow) */
 #define    KEY_F0         0x108
 /* Function defining other function key values*/
 #define    KEY_F(n)       (KEY_F0+(n))
 
-#define    KEY_DL         0x148    /* Delete Line */
-#define    KEY_IL         0x149    /* Insert Line*/
-#define    KEY_DC         0x14A    /* Delete Character */
-#define    KEY_IC         0x14B    /* Insert Character */
-#define    KEY_EIC        0x14C    /* Exit Insert Char mode */
-#define    KEY_CLEAR      0x14D    /* Clear screen */
-#define    KEY_EOS        0x14E    /* Clear to end of screen */
-#define    KEY_EOL        0x14F    /* Clear to end of line */
-#define    KEY_SF         0x150    /* Scroll one line forward */
-#define    KEY_SR         0x151    /* Scroll one line back */
-#define    KEY_NPAGE      0x152    /* Next Page */
-#define    KEY_PPAGE      0x153    /* Prev Page */
-#define    KEY_STAB       0x154    /* Set Tab */
-#define    KEY_CTAB       0x155    /* Clear Tab */
-#define    KEY_CATAB      0x156    /* Clear All Tabs */
-#define    KEY_ENTER      0x157    /* Enter or Send */
-#define    KEY_SRESET     0x158    /* Soft Reset */
-#define    KEY_RESET      0x159    /* Hard Reset */
-#define    KEY_PRINT      0x15A    /* Print */
-#define    KEY_LL         0x15B    /* Home Down */
+//!#define    KEY_DL         0x148    /* Delete Line */
+//!#define    KEY_IL         0x149    /* Insert Line*/
+//!#define    KEY_DC         0x14A    /* Delete Character */
+//!#define    KEY_IC         0x14B    /* Insert Character */
+//!#define    KEY_EIC        0x14C    /* Exit Insert Char mode */
+//!#define    KEY_CLEAR      0x14D    /* Clear screen */
+//!#define    KEY_EOS        0x14E    /* Clear to end of screen */
+//!#define    KEY_EOL        0x14F    /* Clear to end of line */
+//!#define    KEY_SF         0x150    /* Scroll one line forward */
+//!#define    KEY_SR         0x151    /* Scroll one line back */
+//!#define    KEY_NPAGE      0x152    /* Next Page */
+//!#define    KEY_PPAGE      0x153    /* Prev Page */
+//!#define    KEY_STAB       0x154    /* Set Tab */
+//!#define    KEY_CTAB       0x155    /* Clear Tab */
+//!#define    KEY_CATAB      0x156    /* Clear All Tabs */
+//!#define    KEY_ENTER      0x157    /* Enter or Send */
+//!#define    KEY_SRESET     0x158    /* Soft Reset */
+//!#define    KEY_RESET      0x159    /* Hard Reset */
+//!#define    KEY_PRINT      0x15A    /* Print */
+//!#define    KEY_LL         0x15B    /* Home Down */
 
 /*
  * "Keypad" keys arranged like this:
@@ -147,72 +147,72 @@ typedef chtype cchar_t;
  *  C1  down C3
  *
  */
-#define    KEY_A1         0x15C    /* Keypad upper left */
-#define    KEY_A3         0x15D    /* Keypad upper right */
-#define    KEY_B2         0x15E    /* Keypad centre key */
-#define    KEY_C1         0x15F    /* Keypad lower left */
-#define    KEY_C3         0x160    /* Keypad lower right */
+//1#define    KEY_A1         0x15C    /* Keypad upper left */
+//1#define    KEY_A3         0x15D    /* Keypad upper right */
+//1#define    KEY_B2         0x15E    /* Keypad centre key */
+//1#define    KEY_C1         0x15F    /* Keypad lower left */
+//1#define    KEY_C3         0x160    /* Keypad lower right */
 
-#define    KEY_BTAB       0x161    /* Back Tab */
-#define    KEY_BEG        0x162    /* Begin key */
-#define    KEY_CANCEL     0x163    /* Cancel key */
-#define    KEY_CLOSE      0x164    /* Close Key */
-#define    KEY_COMMAND    0x165    /* Command Key */
-#define    KEY_COPY       0x166    /* Copy key */
-#define    KEY_CREATE     0x167    /* Create key */
-#define    KEY_END        0x168    /* End key */
-#define    KEY_EXIT       0x169    /* Exit key */
-#define    KEY_FIND       0x16A    /* Find key */
-#define    KEY_HELP       0x16B    /* Help key */
-#define    KEY_MARK       0x16C    /* Mark key */
-#define    KEY_MESSAGE    0x16D    /* Message key */
-#define    KEY_MOVE       0x16E    /* Move key */
-#define    KEY_NEXT       0x16F    /* Next Object key */
-#define    KEY_OPEN       0x170    /* Open key */
-#define    KEY_OPTIONS    0x171    /* Options key */
-#define    KEY_PREVIOUS   0x172    /* Previous Object key */
-#define    KEY_REDO       0x173    /* Redo key */
-#define    KEY_REFERENCE  0x174    /* Ref Key */
-#define    KEY_REFRESH    0x175    /* Refresh key */
-#define    KEY_REPLACE    0x176    /* Replace key */
-#define    KEY_RESTART    0x177    /* Restart key */
-#define    KEY_RESUME     0x178    /* Resume key */
-#define    KEY_SAVE       0x179    /* Save key */
-#define    KEY_SBEG       0x17A    /* Shift begin key */
-#define    KEY_SCANCEL    0x17B    /* Shift Cancel key */
-#define    KEY_SCOMMAND   0x17C    /* Shift Command key */
-#define    KEY_SCOPY      0x17D    /* Shift Copy key */
-#define    KEY_SCREATE    0x17E    /* Shift Create key */
-#define    KEY_SDC        0x17F    /* Shift Delete Character */
-#define    KEY_SDL        0x180    /* Shift Delete Line */
-#define    KEY_SELECT     0x181    /* Select key */
-#define    KEY_SEND       0x182    /* Send key */
-#define    KEY_SEOL       0x183    /* Shift Clear Line key */
-#define    KEY_SEXIT      0x184    /* Shift Exit key */
-#define    KEY_SFIND      0x185    /* Shift Find key */
-#define    KEY_SHELP      0x186    /* Shift Help key */
-#define    KEY_SHOME      0x187    /* Shift Home key */
-#define    KEY_SIC        0x188    /* Shift Input key */
-#define    KEY_SLEFT      0x189    /* Shift Left Arrow key */
-#define    KEY_SMESSAGE   0x18A    /* Shift Message key */
-#define    KEY_SMOVE      0x18B    /* Shift Move key */
-#define    KEY_SNEXT      0x18C    /* Shift Next key */
-#define    KEY_SOPTIONS   0x18D    /* Shift Options key */
-#define    KEY_SPREVIOUS  0x18E    /* Shift Previous key */
-#define    KEY_SPRINT     0x18F    /* Shift Print key */
-#define    KEY_SREDO      0x190    /* Shift Redo key */
-#define    KEY_SREPLACE   0x191    /* Shift Replace key */
-#define    KEY_SRIGHT     0x192    /* Shift Right Arrow key */
-#define    KEY_SRSUME     0x193    /* Shift Resume key */
-#define    KEY_SSAVE      0x194    /* Shift Save key */
-#define    KEY_SSUSPEND   0x195    /* Shift Suspend key */
-#define    KEY_SUNDO      0x196    /* Shift Undo key */
-#define    KEY_SUSPEND    0x197    /* Suspend key */
-#define    KEY_UNDO       0x198    /* Undo key */
-#define    KEY_MOUSE      0x199    /* Mouse event has occurred */
-#define    KEY_RESIZE     0x200    /* Resize event has occurred */
-#define    KEY_MAX        0x240    /* maximum extended key value */
-#define    KEY_CODE_YES   0x241    /* A function key pressed */
+//!#define    KEY_BTAB       0x161    /* Back Tab */
+//!#define    KEY_BEG        0x162    /* Begin key */
+//!#define    KEY_CANCEL     0x163    /* Cancel key */
+//!#define    KEY_CLOSE      0x164    /* Close Key */
+//!#define    KEY_COMMAND    0x165    /* Command Key */
+//!#define    KEY_COPY       0x166    /* Copy key */
+//!#define    KEY_CREATE     0x167    /* Create key */
+//!#define    KEY_END        0x168    /* End key */
+//!#define    KEY_EXIT       0x169    /* Exit key */
+//!#define    KEY_FIND       0x16A    /* Find key */
+//!#define    KEY_HELP       0x16B    /* Help key */
+//!#define    KEY_MARK       0x16C    /* Mark key */
+//!#define    KEY_MESSAGE    0x16D    /* Message key */
+//!#define    KEY_MOVE       0x16E    /* Move key */
+//!#define    KEY_NEXT       0x16F    /* Next Object key */
+//!#define    KEY_OPEN       0x170    /* Open key */
+//!#define    KEY_OPTIONS    0x171    /* Options key */
+//!#define    KEY_PREVIOUS   0x172    /* Previous Object key */
+//!#define    KEY_REDO       0x173    /* Redo key */
+//!#define    KEY_REFERENCE  0x174    /* Ref Key */
+//!#define    KEY_REFRESH    0x175    /* Refresh key */
+//!#define    KEY_REPLACE    0x176    /* Replace key */
+//!#define    KEY_RESTART    0x177    /* Restart key */
+//!#define    KEY_RESUME     0x178    /* Resume key */
+//!#define    KEY_SAVE       0x179    /* Save key */
+//!#define    KEY_SBEG       0x17A    /* Shift begin key */
+//!#define    KEY_SCANCEL    0x17B    /* Shift Cancel key */
+//!#define    KEY_SCOMMAND   0x17C    /* Shift Command key */
+//!#define    KEY_SCOPY      0x17D    /* Shift Copy key */
+//!#define    KEY_SCREATE    0x17E    /* Shift Create key */
+//!#define    KEY_SDC        0x17F    /* Shift Delete Character */
+//!#define    KEY_SDL        0x180    /* Shift Delete Line */
+//!#define    KEY_SELECT     0x181    /* Select key */
+//!#define    KEY_SEND       0x182    /* Send key */
+//!#define    KEY_SEOL       0x183    /* Shift Clear Line key */
+//!#define    KEY_SEXIT      0x184    /* Shift Exit key */
+//!#define    KEY_SFIND      0x185    /* Shift Find key */
+//!#define    KEY_SHELP      0x186    /* Shift Help key */
+//!#define    KEY_SHOME      0x187    /* Shift Home key */
+//!#define    KEY_SIC        0x188    /* Shift Input key */
+//!#define    KEY_SLEFT      0x189    /* Shift Left Arrow key */
+//!#define    KEY_SMESSAGE   0x18A    /* Shift Message key */
+//!#define    KEY_SMOVE      0x18B    /* Shift Move key */
+//!#define    KEY_SNEXT      0x18C    /* Shift Next key */
+//!#define    KEY_SOPTIONS   0x18D    /* Shift Options key */
+//!#define    KEY_SPREVIOUS  0x18E    /* Shift Previous key */
+//!#define    KEY_SPRINT     0x18F    /* Shift Print key */
+//!#define    KEY_SREDO      0x190    /* Shift Redo key */
+//!#define    KEY_SREPLACE   0x191    /* Shift Replace key */
+//!#define    KEY_SRIGHT     0x192    /* Shift Right Arrow key */
+//!#define    KEY_SRSUME     0x193    /* Shift Resume key */
+//!#define    KEY_SSAVE      0x194    /* Shift Save key */
+//!#define    KEY_SSUSPEND   0x195    /* Shift Suspend key */
+//!#define    KEY_SUNDO      0x196    /* Shift Undo key */
+//!#define    KEY_SUSPEND    0x197    /* Suspend key */
+//!#define    KEY_UNDO       0x198    /* Undo key */
+//!#define    KEY_MOUSE      0x199    /* Mouse event has occurred */
+//!#define    KEY_RESIZE     0x200    /* Resize event has occurred */
+//!#define    KEY_MAX        0x240    /* maximum extended key value */
+//!#define    KEY_CODE_YES   0x241    /* A function key pressed */
 
 #include <unctrl.h>
 
@@ -250,20 +250,20 @@ typedef struct __screen SCREEN;
 /*
  * Attribute definitions
  */
-#define	A_NORMAL	__NORMAL
-#define	A_STANDOUT	__STANDOUT
-#define	A_UNDERLINE	__UNDERSCORE
-#define	A_REVERSE	__REVERSE
-#define	A_BLINK		__BLINK
-#define	A_DIM		__DIM
-#define	A_BOLD		__BOLD
-#define	A_BLANK		__BLANK
-#define	A_INVIS		__BLANK
-#define	A_PROTECT	__PROTECT
-#define	A_ALTCHARSET	__ALTCHARSET
-#define	A_ATTRIBUTES	__ATTRIBUTES
-#define	A_CHARTEXT	__CHARTEXT
-#define	A_COLOR		__COLOR
+//!#define	A_NORMAL	__NORMAL
+//!#define	A_STANDOUT	__STANDOUT
+//!#define	A_UNDERLINE	__UNDERSCORE
+//!#define	A_REVERSE	__REVERSE
+//!#define	A_BLINK		__BLINK
+//!#define	A_DIM		__DIM
+//!#define	A_BOLD		__BOLD
+//!#define	A_BLANK		__BLANK
+//!#define	A_INVIS		__BLANK
+//!#define	A_PROTECT	__PROTECT
+//!#define	A_ALTCHARSET	__ALTCHARSET
+//!#define	A_ATTRIBUTES	__ATTRIBUTES
+//!#define	A_CHARTEXT	__CHARTEXT
+//!#define	A_COLOR		__COLOR
 
 #ifdef HAVE_WCHAR
 #define WA_ATTRIBUTES	0x03ffffff	/* Wide character attributes mask */
@@ -393,14 +393,14 @@ __END_DECLS
  * Color definitions (ANSI color numbers)
  */
 
-#define	COLOR_BLACK	0x00
-#define	COLOR_RED	0x01
-#define	COLOR_GREEN	0x02
-#define	COLOR_YELLOW	0x03
-#define	COLOR_BLUE	0x04
-#define	COLOR_MAGENTA	0x05
-#define	COLOR_CYAN	0x06
-#define	COLOR_WHITE	0x07
+//!#define	COLOR_BLACK	0x00
+//!#define	COLOR_RED	0x01
+//!#define	COLOR_GREEN	0x02
+//!#define	COLOR_YELLOW	0x03
+//!#define	COLOR_BLUE	0x04
+//!#define	COLOR_MAGENTA	0x05
+//!#define	COLOR_CYAN	0x06
+//!#define	COLOR_WHITE	0x07
 
 #ifdef __cplusplus
 #define __UINT32_CAST(a)	static_cast<uint32_t>(a)
@@ -458,8 +458,8 @@ __END_DECLS
 #define	clrtobot()			wclrtobot(stdscr)
 #define	clrtoeol()			wclrtoeol(stdscr)
 #define color_set(c, o)			wcolor_set(stdscr, c, o)
-#define	delch()				wdelch(stdscr)
-#define	deleteln()			wdeleteln(stdscr)
+//!#define	delch()				wdelch(stdscr)
+//!#define	deleteln()			wdeleteln(stdscr)
 #define	echochar(c)			wechochar(stdscr, c)
 //!#define	erase()				werase(stdscr)
 //!#define	getch()				wgetch(stdscr)
@@ -563,8 +563,8 @@ int	 border(chtype, chtype, chtype, chtype,
 int	 clrtobot(void);
 int	 clrtoeol(void);
 int	 color_set(short, void *);
-int	 delch(void);
-int	 deleteln(void);
+//!int	 delch(void);
+//!int	 deleteln(void);
 int	 echochar(const chtype);
 //!int	 erase(void);
 //!int	 getch(void);
@@ -705,7 +705,7 @@ bool	 is_linetouched(WINDOW *, int);
 bool	 is_wintouched(WINDOW *);
 bool	 is_term_resized(int, int);
 int      keyok(int, bool);
-int	 keypad(WINDOW *, bool);
+//!int	 keypad(WINDOW *, bool);
 char	*keyname(int);
 char     killchar(void);
 int	 leaveok(WINDOW *, bool);

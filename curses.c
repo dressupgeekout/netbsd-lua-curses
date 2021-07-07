@@ -22,6 +22,8 @@ DECLARE(box);
 DECLARE(cbreak);
 DECLARE(clear);
 DECLARE(curs_set);
+DECLARE(delch);
+DECLARE(deleteln);
 DECLARE(echo);
 DECLARE(endwin);
 DECLARE(erase);
@@ -41,9 +43,11 @@ DECLARE(halfdelay);
 DECLARE(has_colors);
 DECLARE(has_ic);
 DECLARE(hline);
+DECLARE(idlok);
 DECLARE(initscr);
 DECLARE(insch);
 DECLARE(isendwin);
+DECLARE(keypad);
 DECLARE(meta);
 DECLARE(move);
 DECLARE(mvaddstr);
@@ -175,6 +179,26 @@ DECLARE(curs_set)
 {
 	int visibility = luaL_checkinteger(L, 1);
 	lua_pushinteger(L, curs_set(visibility));
+	return 1;
+}
+
+
+/*
+ * result = delch()
+ */
+DECLARE(delch)
+{
+	lua_pushinteger(L, delch());
+	return 1;
+}
+
+
+/*
+ * result = deleteln
+ */
+DECLARE(deleteln)
+{
+	lua_pushinteger(L, deleteln());
 	return 1;
 }
 
@@ -385,6 +409,19 @@ DECLARE(hline)
 
 
 /*
+ * result = idlok(window, bool)
+ */
+DECLARE(idlok)
+{
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
+	luaL_checktype(L, 2, LUA_TBOOLEAN);
+	bool flag = lua_toboolean(L, 2);
+	lua_pushinteger(L, idlok(*window, flag));
+	return 1;
+}
+
+
+/*
  * window = initscr()
  */
 DECLARE(initscr)
@@ -415,6 +452,20 @@ DECLARE(isendwin)
 	lua_pushboolean(L, isendwin());
 	return 1;
 }
+
+
+/*
+ * bool = keypad(window, bool)
+ */
+DECLARE(keypad)
+{
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
+	luaL_checktype(L, 2, LUA_TBOOLEAN);
+	bool flag = lua_toboolean(L, 2);
+	lua_pushinteger(L, keypad(*window, flag));
+	return 1;
+}
+
 
 
 /*
@@ -720,6 +771,101 @@ luaopen_curses(lua_State *L)
 		CONSTANT(COLOR_RED),
 		CONSTANT(COLOR_WHITE),
 		CONSTANT(COLOR_YELLOW),
+		CONSTANT(ERR),
+		CONSTANT(KEY_A1),
+		CONSTANT(KEY_A3),
+		CONSTANT(KEY_B2),
+		CONSTANT(KEY_BACKSPACE),
+		CONSTANT(KEY_BEG),
+		CONSTANT(KEY_BREAK),
+		CONSTANT(KEY_BTAB),
+		CONSTANT(KEY_C1),
+		CONSTANT(KEY_C3),
+		CONSTANT(KEY_CANCEL),
+		CONSTANT(KEY_CATAB),
+		CONSTANT(KEY_CLEAR),
+		CONSTANT(KEY_CLOSE),
+		CONSTANT(KEY_CODE_YES),
+		CONSTANT(KEY_COMMAND),
+		CONSTANT(KEY_COPY),
+		CONSTANT(KEY_CREATE),
+		CONSTANT(KEY_CTAB),
+		CONSTANT(KEY_DC),
+		CONSTANT(KEY_DL),
+		CONSTANT(KEY_DOWN),
+		CONSTANT(KEY_EIC),
+		CONSTANT(KEY_END),
+		CONSTANT(KEY_ENTER),
+		CONSTANT(KEY_EOL),
+		CONSTANT(KEY_EOS),
+		CONSTANT(KEY_EXIT),
+		CONSTANT(KEY_FIND),
+		CONSTANT(KEY_HELP),
+		CONSTANT(KEY_HOME),
+		CONSTANT(KEY_IC),
+		CONSTANT(KEY_IL),
+		CONSTANT(KEY_LEFT),
+		CONSTANT(KEY_LL),
+		CONSTANT(KEY_MARK),
+		CONSTANT(KEY_MAX),
+		CONSTANT(KEY_MESSAGE),
+		CONSTANT(KEY_MIN),
+		CONSTANT(KEY_MOUSE),
+		CONSTANT(KEY_MOVE),
+		CONSTANT(KEY_NEXT),
+		CONSTANT(KEY_NPAGE),
+		CONSTANT(KEY_OPEN),
+		CONSTANT(KEY_OPTIONS),
+		CONSTANT(KEY_PPAGE),
+		CONSTANT(KEY_PREVIOUS),
+		CONSTANT(KEY_PRINT),
+		CONSTANT(KEY_REDO),
+		CONSTANT(KEY_REFERENCE),
+		CONSTANT(KEY_REFRESH),
+		CONSTANT(KEY_REPLACE),
+		CONSTANT(KEY_RESET),
+		CONSTANT(KEY_RESIZE),
+		CONSTANT(KEY_RESTART),
+		CONSTANT(KEY_RESUME),
+		CONSTANT(KEY_RIGHT),
+		CONSTANT(KEY_SAVE),
+		CONSTANT(KEY_SBEG),
+		CONSTANT(KEY_SCANCEL),
+		CONSTANT(KEY_SCOMMAND),
+		CONSTANT(KEY_SCOPY),
+		CONSTANT(KEY_SCREATE),
+		CONSTANT(KEY_SDC),
+		CONSTANT(KEY_SDL),
+		CONSTANT(KEY_SELECT),
+		CONSTANT(KEY_SEND),
+		CONSTANT(KEY_SEOL),
+		CONSTANT(KEY_SEXIT),
+		CONSTANT(KEY_SF),
+		CONSTANT(KEY_SFIND),
+		CONSTANT(KEY_SHELP),
+		CONSTANT(KEY_SHOME),
+		CONSTANT(KEY_SIC),
+		CONSTANT(KEY_SLEFT),
+		CONSTANT(KEY_SMESSAGE),
+		CONSTANT(KEY_SMOVE),
+		CONSTANT(KEY_SNEXT),
+		CONSTANT(KEY_SOPTIONS),
+		CONSTANT(KEY_SPREVIOUS),
+		CONSTANT(KEY_SPRINT),
+		CONSTANT(KEY_SR),
+		CONSTANT(KEY_SREDO),
+		CONSTANT(KEY_SREPLACE),
+		CONSTANT(KEY_SRESET),
+		CONSTANT(KEY_SRIGHT),
+		CONSTANT(KEY_SRSUME),
+		CONSTANT(KEY_SSAVE),
+		CONSTANT(KEY_SSUSPEND),
+		CONSTANT(KEY_STAB),
+		CONSTANT(KEY_SUNDO),
+		CONSTANT(KEY_SUSPEND),
+		CONSTANT(KEY_UNDO),
+		CONSTANT(KEY_UP),
+		CONSTANT(OK),
 		{NULL, 0},
 	};
 
@@ -744,6 +890,8 @@ luaopen_curses(lua_State *L)
 		BINDING(cbreak),
 		BINDING(clear),
 		BINDING(curs_set),
+		BINDING(delch),
+		BINDING(deleteln),
 		BINDING(echo),
 		BINDING(endwin),
 		BINDING(erase),
@@ -763,9 +911,11 @@ luaopen_curses(lua_State *L)
 		BINDING(has_colors),
 		BINDING(has_ic),
 		BINDING(hline),
+		BINDING(idlok),
 		BINDING(initscr),
 		BINDING(insch),
 		BINDING(isendwin),
+		BINDING(keypad),
 		BINDING(meta),
 		BINDING(move),
 		BINDING(mvaddstr),
