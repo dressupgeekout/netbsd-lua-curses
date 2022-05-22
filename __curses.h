@@ -449,14 +449,14 @@ __END_DECLS
 #define attr_set(a, p, o)		wattr_set(stdscr, a, p, o)
 //!#define	attroff(attr)			wattroff(stdscr, attr)
 //!#define	attron(attr)			wattron(stdscr, attr)
-#define	attrset(attr)			wattrset(stdscr, attr)
+//!#define	attrset(attr)			wattrset(stdscr, attr)
 #define bkgd(ch)			wbkgd(stdscr, ch)
 #define bkgdset(ch)			wbkgdset(stdscr, ch)
 #define	border(l, r, t, b, tl, tr, bl, br) \
 	wborder(stdscr, l, r, t, b, tl, tr, bl, br)
 //!#define	clear()				wclear(stdscr)
-#define	clrtobot()			wclrtobot(stdscr)
-#define	clrtoeol()			wclrtoeol(stdscr)
+//!#define	clrtobot()			wclrtobot(stdscr)
+//!#define	clrtoeol()			wclrtoeol(stdscr)
 #define color_set(c, o)			wcolor_set(stdscr, c, o)
 //!#define	delch()				wdelch(stdscr)
 //!#define	deleteln()			wdeleteln(stdscr)
@@ -465,7 +465,7 @@ __END_DECLS
 //!#define	getch()				wgetch(stdscr)
 #define	getnstr(s, n)			wgetnstr(stdscr, s, n)
 #define	getstr(s)			wgetstr(stdscr, s)
-#define	inch()				winch(stdscr)
+//!#define	inch()				winch(stdscr)
 #define	inchnstr(c)			winchnstr(stdscr, c)
 #define	inchstr(c)			winchstr(stdscr, c)
 #define	innstr(s, n)			winnstr(stdscr, s, n)
@@ -479,9 +479,9 @@ __END_DECLS
 #define	setscrreg(t, b)			wsetscrreg(stdscr, t, b)
 //!#define	standend()			wstandend(stdscr)
 //!#define	standout()			wstandout(stdscr)
-#define	timeout(delay)			wtimeout(stdscr, delay)
+//!#define	timeout(delay)			wtimeout(stdscr, delay)
 //!#define	underscore()			wunderscore(stdscr)
-#define	underend()			wunderend(stdscr)
+//!#define	underend()			wunderend(stdscr)
 #define	waddbytes(w, s, n)		__waddbytes(w, s, n, 0)
 #define	waddstr(w, s)			waddnstr(w, s, -1)
 
@@ -570,7 +570,7 @@ int	 echochar(const chtype);
 //!int	 getch(void);
 int	 getnstr(char *, int);
 int	 getstr(char *);
-chtype	 inch(void);
+//!chtype	 inch(void);
 int	 inchnstr(chtype *, int);
 int	 inchstr(chtype *);
 int	 innstr(char *, int);
@@ -584,9 +584,9 @@ int	 instr(char *);
 int	 setscrreg(int, int);
 //!int	 standend(void);
 //!int	 standout(void);
-void	 timeout(int);
+//!void	 timeout(int);
 //!int	 underscore(void);
-int	 underend(void);
+//!int	 underend(void);
 int	 waddbytes(WINDOW *, const char *, int);
 int	 waddstr(WINDOW *, const char *);
 

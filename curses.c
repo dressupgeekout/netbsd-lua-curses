@@ -16,11 +16,14 @@ DECLARE(addch);
 DECLARE(addstr);
 DECLARE(attroff);
 DECLARE(attron);
+DECLARE(attrset);
 DECLARE(baudrate);
 DECLARE(beep);
 DECLARE(box);
 DECLARE(cbreak);
 DECLARE(clear);
+DECLARE(clrtobot);
+DECLARE(clrtoeol);
 DECLARE(curs_set);
 DECLARE(delch);
 DECLARE(deleteln);
@@ -45,6 +48,7 @@ DECLARE(has_ic);
 DECLARE(hline);
 DECLARE(idlok);
 DECLARE(initscr);
+DECLARE(inch);
 DECLARE(insch);
 DECLARE(isendwin);
 DECLARE(keypad);
@@ -64,9 +68,11 @@ DECLARE(resizeterm);
 DECLARE(scrl);
 DECLARE(scroll);
 DECLARE(scrollok);
+DECLARE(setscrreg);
 DECLARE(setsyx);
 DECLARE(standend);
 DECLARE(standout);
+DECLARE(timeout);
 DECLARE(underend);
 DECLARE(underscore);
 DECLARE(vline);
@@ -120,6 +126,17 @@ DECLARE(attron)
 
 
 /*
+ * result = = attrset(attr)
+ */
+
+DECLARE(attrset)
+{
+	int attr = luaL_checkinteger(L, 1);
+	lua_pushinteger(L, attrset(attr));
+	return 1;
+}
+
+/*
  * bits_per_second = baudrate()
  */
 DECLARE(baudrate)
@@ -168,6 +185,26 @@ DECLARE(cbreak)
 DECLARE(clear)
 {
 	lua_pushinteger(L, clear());
+	return 1;
+}
+
+
+/*
+ * result = clrtobot()
+ */
+DECLARE(clrtobot)
+{
+	lua_pushinteger(L, clrtobot());
+	return 1;
+}
+
+
+/*
+ * result = clrtoeol()
+ */
+DECLARE(clrtoeol)
+{
+	lua_pushinteger(L, clrtoeol());
 	return 1;
 }
 
@@ -434,6 +471,16 @@ DECLARE(initscr)
 
 
 /*
+ * inch()
+ */
+DECLARE(inch)
+{
+	lua_pushinteger(L, inch());
+	return 1;
+}
+
+
+/*
  * result = insch(char)
  */
 DECLARE(insch)
@@ -650,6 +697,18 @@ DECLARE(scrollok)
 
 
 /*
+ * result = setscrreg(top, bottom)
+ */
+DECLARE(setscrreg)
+{
+	int top = luaL_checkinteger(L, 1);
+	int bottom = luaL_checkinteger(L, 2);
+	lua_pushinteger(L, setscrreg(top, bottom));
+	return 1;
+}
+
+
+/*
  * setsyx(y, x)
  */
 DECLARE(setsyx)
@@ -678,6 +737,17 @@ DECLARE(standout)
 {
 	lua_pushinteger(L, standout());
 	return 1;
+}
+
+
+/*
+ * timeout(delay)
+ */
+DECLARE(timeout)
+{
+	int delay = luaL_checkinteger(L, 1);
+	timeout(delay);
+	return 0;
 }
 
 
@@ -884,11 +954,14 @@ luaopen_curses(lua_State *L)
 		BINDING(addstr),
 		BINDING(attroff),
 		BINDING(attron),
+		BINDING(attrset),
 		BINDING(baudrate),
 		BINDING(beep),
 		BINDING(box),
 		BINDING(cbreak),
 		BINDING(clear),
+		BINDING(clrtobot),
+		BINDING(clrtoeol),
 		BINDING(curs_set),
 		BINDING(delch),
 		BINDING(deleteln),
@@ -913,6 +986,7 @@ luaopen_curses(lua_State *L)
 		BINDING(hline),
 		BINDING(idlok),
 		BINDING(initscr),
+		BINDING(inch),
 		BINDING(insch),
 		BINDING(isendwin),
 		BINDING(keypad),
@@ -932,9 +1006,11 @@ luaopen_curses(lua_State *L)
 		BINDING(scrl),
 		BINDING(scroll),
 		BINDING(scrollok),
+		BINDING(setscrreg),
 		BINDING(setsyx),
 		BINDING(standend),
 		BINDING(standout),
+		BINDING(timeout),
 		BINDING(underend),
 		BINDING(underscore),
 		BINDING(vline),
