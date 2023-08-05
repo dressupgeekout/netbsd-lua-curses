@@ -58,6 +58,15 @@ DECLARE(x)							\
 	return 1;						\
 }
 
+#define DEFINE_RINT_INT_INT(x)			\
+DECLARE(x)					\
+{						\
+	int arg1 = luaL_checkinteger(L, 1);	\
+	int arg2 = luaL_checkinteger(L, 2);	\
+	lua_pushinteger(L, x(arg1, arg2));	\
+	return 1;				\
+}
+
 /* ********** */
 
 int luaopen_curses(lua_State *L);
@@ -97,24 +106,33 @@ DECLARE(has_colors);
 DECLARE(has_ic);
 DECLARE(hline);
 DECLARE(idlok);
-DECLARE(initscr);
 DECLARE(inch);
+DECLARE(initscr);
 DECLARE(insch);
+DECLARE(insertln);
 DECLARE(isendwin);
 DECLARE(keypad);
 DECLARE(meta);
 DECLARE(move);
 DECLARE(mvaddstr);
 DECLARE(mvcur);
+DECLARE(mvdelch);
+DECLARE(mvgetch);
+DECLARE(mvinch);
+DECLARE(napms);
 DECLARE(nl);
 DECLARE(nocbreak);
 DECLARE(noecho);
 DECLARE(nonl);
+DECLARE(noqiflush);
 DECLARE(noraw);
+DECLARE(qiflush);
 DECLARE(raw);
 DECLARE(refresh);
+DECLARE(resetty);
 DECLARE(resize_term);
 DECLARE(resizeterm);
+DECLARE(savetty);
 DECLARE(scrl);
 DECLARE(scroll);
 DECLARE(scrollok);
@@ -262,7 +280,7 @@ DECLARE(insch)
 	return 1;
 }
 
-
+DEFINE_RINT(insertln)
 DEFINE_RBOOL(isendwin)
 
 
@@ -293,16 +311,7 @@ DECLARE(meta)
 }
 
 
-/*
- * result = move(y, x)
- */
-DECLARE(move)
-{
-	int y = luaL_checkinteger(L, 1);
-	int x = luaL_checkinteger(L, 2);
-	lua_pushinteger(L, move(y, x));
-	return 1;
-}
+DEFINE_RINT_INT_INT(move)
 
 
 /*
@@ -332,39 +341,23 @@ DECLARE(mvcur)
 }
 
 
+DEFINE_RINT_INT_INT(mvdelch)
+DEFINE_RINT_INT_INT(mvgetch)
+DEFINE_RINT_INT_INT(mvinch)
+DEFINE_RINT_INT(napms)
 DEFINE_RINT(nl)
 DEFINE_RINT(nocbreak)
 DEFINE_RINT(noecho)
 DEFINE_RINT(nonl)
+DEFINE_RVOID(noqiflush)
 DEFINE_RINT(noraw)
+DEFINE_RVOID(qiflush)
 DEFINE_RINT(raw)
 DEFINE_RINT(refresh)
-
-
-/*
- * result = resize_term(lines, cols)
- */
-DECLARE(resize_term)
-{
-	int lines = luaL_checkinteger(L, 1);
-	int cols = luaL_checkinteger(L, 2);
-	lua_pushinteger(L, resize_term(lines, cols));
-	return 1;
-}
-
-
-/*
- * resizeterm(lines, cols)
- */
-DECLARE(resizeterm)
-{
-	int lines = luaL_checkinteger(L, 1);
-	int cols = luaL_checkinteger(L, 2);
-	lua_pushinteger(L, resizeterm(lines, cols));
-	return 1;
-}
-
-
+DEFINE_RINT(resetty)
+DEFINE_RINT_INT_INT(resize_term)
+DEFINE_RINT_INT_INT(resizeterm)
+DEFINE_RINT(savetty)
 DEFINE_RINT_INT(scrl)
 DEFINE_RINT_WINDOW(scroll)
 
@@ -382,16 +375,7 @@ DECLARE(scrollok)
 }
 
 
-/*
- * result = setscrreg(top, bottom)
- */
-DECLARE(setscrreg)
-{
-	int top = luaL_checkinteger(L, 1);
-	int bottom = luaL_checkinteger(L, 2);
-	lua_pushinteger(L, setscrreg(top, bottom));
-	return 1;
-}
+DEFINE_RINT_INT_INT(setscrreg)
 
 
 /*
@@ -447,6 +431,7 @@ DEFINE_RINT_WINDOW(wstandout)
 #undef DEFINE_RINT_INT
 #undef DEFINE_RINT_STRING
 #undef DEFINE_RINT_WINDOW
+#undef DEFINE_RINT_INT_INT
 
 /* ********** */
 
@@ -630,21 +615,30 @@ luaopen_curses(lua_State *L)
 		BINDING(initscr),
 		BINDING(inch),
 		BINDING(insch),
+		BINDING(insertln),
 		BINDING(isendwin),
 		BINDING(keypad),
 		BINDING(meta),
 		BINDING(move),
 		BINDING(mvaddstr),
 		BINDING(mvcur),
+		BINDING(mvdelch),
+		BINDING(mvgetch),
+		BINDING(mvinch),
+		BINDING(napms),
 		BINDING(nl),
 		BINDING(nocbreak),
 		BINDING(noecho),
 		BINDING(nonl),
+		BINDING(noqiflush),
 		BINDING(noraw),
+		BINDING(qiflush),
 		BINDING(raw),
 		BINDING(refresh),
+		BINDING(resetty),
 		BINDING(resize_term),
 		BINDING(resizeterm),
+		BINDING(savetty),
 		BINDING(scrl),
 		BINDING(scroll),
 		BINDING(scrollok),

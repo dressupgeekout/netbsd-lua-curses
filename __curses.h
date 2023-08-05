@@ -471,12 +471,12 @@ __END_DECLS
 #define	innstr(s, n)			winnstr(stdscr, s, n)
 //!#define	insch(ch)			winsch(stdscr, ch)
 #define	insdelln(n)			winsdelln(stdscr, n)
-#define	insertln()			winsertln(stdscr)
+//!#define	insertln()			winsertln(stdscr)
 #define	instr(s)			winstr(stdscr, s)
 //!#define	move(y, x)			wmove(stdscr, y, x)
 //!#define	refresh()			wrefresh(stdscr)
 //!#define	scrl(n)				wscrl(stdscr, n)
-#define	setscrreg(t, b)			wsetscrreg(stdscr, t, b)
+//!#define	setscrreg(t, b)			wsetscrreg(stdscr, t, b)
 //!#define	standend()			wstandend(stdscr)
 //!#define	standout()			wstandout(stdscr)
 //!#define	timeout(delay)			wtimeout(stdscr, delay)
@@ -492,11 +492,11 @@ __END_DECLS
 #define	mvaddchstr(y, x, s)		mvwaddchstr(stdscr, y, x, s)
 #define	mvaddnstr(y, x, s, n)		mvwaddnstr(stdscr, y, x, s, n)
 //!#define	mvaddstr(y, x, s)		mvwaddstr(stdscr, y, x, s)
-#define	mvdelch(y, x)			mvwdelch(stdscr, y, x)
-#define	mvgetch(y, x)			mvwgetch(stdscr, y, x)
+//!#define	mvdelch(y, x)			mvwdelch(stdscr, y, x)
+//!#define	mvgetch(y, x)			mvwgetch(stdscr, y, x)
 #define	mvgetnstr(y, x, s, n)		mvwgetnstr(stdscr, y, x, s, n)
 #define	mvgetstr(y, x, s)		mvwgetstr(stdscr, y, x, s)
-#define	mvinch(y, x)			mvwinch(stdscr, y, x)
+//!#define	mvinch(y, x)			mvwinch(stdscr, y, x)
 #define	mvinchnstr(y, x, c, n)		mvwinchnstr(stdscr, y, x, c, n)
 #define	mvinchstr(y, x, c)		mvwinchstr(stdscr, y, x, c)
 #define	mvinnstr(y, x, s, n)		mvwinnstr(stdscr, y, x, s, n)
@@ -536,8 +536,8 @@ __END_DECLS
 	(wmove(w, y, x) == ERR ? ERR : winstr(w, s))
 
 /* Miscellaneous. */
-#define	noqiflush()		intrflush(stdscr, FALSE)
-#define	qiflush()		intrflush(stdscr, TRUE)
+//!#define	noqiflush()		intrflush(stdscr, FALSE)
+//!#define	qiflush()		intrflush(stdscr, TRUE)
 
 #else
 /* Use functions not macros... */
@@ -547,7 +547,7 @@ int	 addch(chtype);
 int	 addchnstr(const chtype *, int);
 int	 addchstr(const chtype *);
 int	 addnstr(const char *, int);
-int	 addstr(const char *);
+//!int	 addstr(const char *);
 int	 attr_get(attr_t *, short *, void *);
 int	 attr_off(attr_t, void *);
 int	 attr_on(attr_t, void *);
@@ -576,12 +576,12 @@ int	 inchstr(chtype *);
 int	 innstr(char *, int);
 //!int	 insch(chtype);
 int	 insdelln(int);
-int	 insertln(void);
+//!int	 insertln(void);
 int	 instr(char *);
 //!int	 move(int, int);
 //!int	 refresh(void);
 //!int	 scrl(int);
-int	 setscrreg(int, int);
+//!int	 setscrreg(int, int);
 //!int	 standend(void);
 //!int	 standout(void);
 //!void	 timeout(int);
@@ -597,11 +597,11 @@ int	 mvaddchnstr(int, int, const chtype *, int);
 int	 mvaddchstr(int, int, const chtype *);
 int	 mvaddnstr(int, int, const char *, int);
 //!int	 mvaddstr(int, int, const char *);
-int	 mvdelch(int, int);
-int	 mvgetch(int, int);
+//!int	 mvdelch(int, int);
+//!int	 mvgetch(int, int);
 int	 mvgetnstr(int, int, char *, int);
 int	 mvgetstr(int, int, char *);
-chtype	 mvinch(int, int);
+//!chtype	 mvinch(int, int);
 int	 mvinchnstr(int, int, chtype *, int);
 int	 mvinchstr(int, int, chtype *);
 int	 mvinnstr(int, int, char *, int);
@@ -725,7 +725,7 @@ int	 mvwinnstr(WINDOW *, int, int, char *, int);
 int	 mvwinstr(WINDOW *, int, int, char *);
 int	 mvwprintw(WINDOW *, int, int, const char *, ...) __printflike(4, 5);
 int	 mvwscanw(WINDOW *, int, int, const char *, ...) __scanflike(4, 5);
-int	 napms(int);
+//!int	 napms(int);
 WINDOW	*newpad(int, int);
 SCREEN  *newterm(char *, FILE *, FILE *);
 WINDOW	*newwin(int, int, int, int);
@@ -735,7 +735,7 @@ attr_t	 no_color_attributes(void);
 int	 nodelay(WINDOW *, bool);
 //!int	 noecho(void);
 //!int	 nonl(void);
-void	 noqiflush(void);
+//!void	 noqiflush(void);
 //!int	 noraw(void);
 int	 notimeout(WINDOW *, bool);
 int	 overlay(const WINDOW *, WINDOW *);
@@ -746,16 +746,16 @@ int	 pnoutrefresh(WINDOW *, int, int, int, int, int, int);
 int	 prefresh(WINDOW *, int, int, int, int, int, int);
 int	 printw(const char *, ...) __printflike(1, 2);
 int	 putwin(WINDOW *, FILE *);
-void	 qiflush(void);
+//!void	 qiflush(void);
 //!int	 raw(void);
 int	 redrawwin(WINDOW *);
 int	 reset_prog_mode(void);
 int	 reset_shell_mode(void);
-int	 resetty(void);
+//!int	 resetty(void);
 //!int      resizeterm(int, int);
 //!int	 resize_term(int, int);
 int	 ripoffline(int, int (*)(WINDOW *, int));
-int	 savetty(void);
+//!int	 savetty(void);
 int	 scanw(const char *, ...) __scanflike(1, 2);
 //!int	 scroll(WINDOW *);
 //!int	 scrollok(WINDOW *, bool);
