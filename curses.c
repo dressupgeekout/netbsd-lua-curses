@@ -34,6 +34,23 @@ DECLARE(x)				\
 	return 1;			\
 }
 
+#define DEFINE_RINT_STRING(x)				\
+DECLARE(x)						\
+{							\
+	const char *string = luaL_checkstring(L, 1);	\
+	lua_pushinteger(L, x(string));			\
+	return 1;					\
+}
+
+#define DEFINE_RINT_WINDOW(x)					\
+DECLARE(x)							\
+{								\
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);	\
+	lua_pushinteger(L, x(*window));				\
+	return 1;						\
+}
+
+/* ********** */
 
 int luaopen_curses(lua_State *L);
 
@@ -117,15 +134,7 @@ DECLARE(addch)
 }
 
 
-/*
- * result = addstr(string)
- */
-DECLARE(addstr)
-{
-	const char *string = luaL_checkstring(L, 1);
-	lua_pushinteger(L, addstr(string));
-	return 1;
-}
+DEFINE_RINT_STRING(addstr)
 
 
 /*
@@ -161,15 +170,7 @@ DECLARE(attrset)
 	return 1;
 }
 
-/*
- * bits_per_second = baudrate()
- */
 DEFINE_RINT(baudrate)
-
-
-/*
- * result = beep()
- */
 DEFINE_RINT(beep)
 
 
@@ -186,27 +187,9 @@ DECLARE(box)
 }
 
 
-/*
- * result = cbreak()
- */
 DEFINE_RINT(cbreak)
-
-
-/*
- * result = clear()
- */
 DEFINE_RINT(clear)
-
-
-/*
- * result = clrtobot()
- */
 DEFINE_RINT(clrtobot)
-
-
-/*
- * result = clrtoeol()
- */
 DEFINE_RINT(clrtoeol)
 
 
@@ -221,140 +204,22 @@ DECLARE(curs_set)
 }
 
 
-/*
- * result = delch()
- */
 DEFINE_RINT(delch)
-
-
-/*
- * result = deleteln
- */
 DEFINE_RINT(deleteln)
-
-
-/*
- * result = echo()
- */
 DEFINE_RINT(echo)
-
-
-/*
- * result = endwin()
- */
 DEFINE_RINT(endwin)
-
-
-/*
- * result = erase()
- */
 DEFINE_RINT(erase)
-
-
-/*
- * filter()
- */
 DEFINE_RVOID(filter)
-
-
-/*
- * result = flash()
- */
 DEFINE_RINT(flash)
-
-
-/*
- * x = getbegx(window)
- */
-DECLARE(getbegx)
-{
-	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
-	lua_pushinteger(L, getbegx(*window));
-	return 1;
-}
-
-
-/*
- * y = getbegy(window)
- */
-DECLARE(getbegy)
-{
-	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
-	lua_pushinteger(L, getbegy(*window));
-	return 1;
-}
- 
-
-/*
- * result = getch()
- */
+DEFINE_RINT_WINDOW(getbegx)
+DEFINE_RINT_WINDOW(getbegy)
 DEFINE_RINT(getch)
-
-
-/*
- * x = getcurx(window)
- */
-DECLARE(getcurx)
-{
-	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
-	lua_pushinteger(L, getcurx(*window));
-	return 1;
-}
-
-
-/*
- * y = getcury(window)
- */
-DECLARE(getcury)
-{
-	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
-	lua_pushinteger(L, getcury(*window));
-	return 1;
-}
-
-
-/*
- * x = getmaxx(window)
- */
-DECLARE(getmaxx)
-{
-	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
-	lua_pushinteger(L, getmaxx(*window));
-	return 1;
-}
-
-
-/*
- * y = getmaxy(window)
- */
-DECLARE(getmaxy)
-{
-	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
-	lua_pushinteger(L, getmaxy(*window));
-	return 1;
-}
-
-
-/*
- * x = getparx(window)
- */
-DECLARE(getparx)
-{
-	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
-	lua_pushinteger(L, getparx(*window));
-	return 1;
-}
-
-
-/*
- * y = getpary(window)
- */
-DECLARE(getpary)
-{
-	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
-	lua_pushinteger(L, getpary(*window));
-	return 1;
-}
+DEFINE_RINT_WINDOW(getcurx)
+DEFINE_RINT_WINDOW(getcury)
+DEFINE_RINT_WINDOW(getmaxx)
+DEFINE_RINT_WINDOW(getmaxy)
+DEFINE_RINT_WINDOW(getparx)
+DEFINE_RINT_WINDOW(getpary)
 
 
 /*
@@ -382,15 +247,7 @@ DECLARE(halfdelay)
 }
 
 
-/*
- * result = has_colors()
- */
 DEFINE_RBOOL(has_colors)
-
-
-/*
- * bool = has_ic()
- */
 DEFINE_RBOOL(has_ic)
 
 
@@ -452,9 +309,6 @@ DECLARE(insch)
 }
 
 
-/*
- * bool = isendwin()
- */
 DEFINE_RBOOL(isendwin)
 
 
@@ -524,45 +378,12 @@ DECLARE(mvcur)
 }
 
 
-/*
- * result = nl()
- */
 DEFINE_RINT(nl)
-
-
-/*
- * result = nocbreak()
- */
 DEFINE_RINT(nocbreak)
-
-
-/*
- * result = noecho()
- */
 DEFINE_RINT(noecho)
-
-
-/*
- * result = nonl()
- */
 DEFINE_RINT(nonl)
-
-
-/*
- * result = noraw()
- */
 DEFINE_RINT(noraw)
-
-
-/*
- * result = raw()
- */
 DEFINE_RINT(raw)
-
-
-/*
- * result = refresh()
- */
 DEFINE_RINT(refresh)
 
 
@@ -601,15 +422,7 @@ DECLARE(scrl)
 }
 
 
-/*
- * result = scroll(window)
- */
-DECLARE(scroll)
-{
-	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
-	lua_pushinteger(L, scroll(*window));
-	return 1;
-}
+DEFINE_RINT_WINDOW(scroll)
 
 
 /*
@@ -649,15 +462,7 @@ DECLARE(setsyx)
 }
 
 
-/*
- * result = standend()
- */
 DEFINE_RINT(standend)
-
-
-/*
- * result = standout()
- */
 DEFINE_RINT(standout)
 
 
@@ -672,15 +477,7 @@ DECLARE(timeout)
 }
 
 
-/*
- * result = underend()
- */
 DEFINE_RINT(underend)
-
-
-/*
- * result = underscore()
- */
 DEFINE_RINT(underscore)
 
 
@@ -696,31 +493,15 @@ DECLARE(vline)
 }
 
 
-/*
- * result = wstandend(window)
- */
-DECLARE(wstandend)
-{
-	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
-	lua_pushinteger(L, wstandend(*window));
-	return 1;
-}
-
-
-/*
- * result = wstandout(window)
- */
-DECLARE(wstandout)
-{
-	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
-	lua_pushinteger(L, wstandout(*window));
-	return 1;
-}
+DEFINE_RINT_WINDOW(wstandend)
+DEFINE_RINT_WINDOW(wstandout)
 
 #undef DECLARE
-#undef DEFINE_RVIOD
+#undef DEFINE_RVOID
 #undef DEFINE_RBOOL
 #undef DEFINE_RINT
+#undef DEFINE_RINT_STRING
+#undef DEFINE_RINT_WINDOW
 
 /* ********** */
 
