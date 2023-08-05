@@ -34,6 +34,14 @@ DECLARE(x)				\
 	return 1;			\
 }
 
+#define DEFINE_RINT_INT(x)			\
+DECLARE(x)					\
+{						\
+	int arg = luaL_checkinteger(L, 1);	\
+	lua_pushinteger(L, x(arg));		\
+	return 1;				\
+}
+
 #define DEFINE_RINT_STRING(x)				\
 DECLARE(x)						\
 {							\
@@ -135,41 +143,9 @@ DECLARE(addch)
 
 
 DEFINE_RINT_STRING(addstr)
-
-
-/*
- * result = attroff(attr)
- */
-DECLARE(attroff)
-{
-	int attr = luaL_checkinteger(L, 1);
-	lua_pushinteger(L, attroff(attr));
-	return 1;
-}
-
-
-/*
- * result = attron(attr)
- */
-DECLARE(attron)
-{
-	int attr = luaL_checkinteger(L, 1);
-	lua_pushinteger(L, attron(attr));
-	return 1;
-}
-
-
-/*
- * result = = attrset(attr)
- */
-
-DECLARE(attrset)
-{
-	int attr = luaL_checkinteger(L, 1);
-	lua_pushinteger(L, attrset(attr));
-	return 1;
-}
-
+DEFINE_RINT_INT(attroff)
+DEFINE_RINT_INT(attron)
+DEFINE_RINT_INT(attrset)
 DEFINE_RINT(baudrate)
 DEFINE_RINT(beep)
 
@@ -191,19 +167,7 @@ DEFINE_RINT(cbreak)
 DEFINE_RINT(clear)
 DEFINE_RINT(clrtobot)
 DEFINE_RINT(clrtoeol)
-
-
-/*
- * result = curs_set(visibility)
- */
-DECLARE(curs_set)
-{
-	int visibility = luaL_checkinteger(L, 1);
-	lua_pushinteger(L, curs_set(visibility));
-	return 1;
-}
-
-
+DEFINE_RINT_INT(curs_set)
 DEFINE_RINT(delch)
 DEFINE_RINT(deleteln)
 DEFINE_RINT(echo)
@@ -236,17 +200,7 @@ DECLARE(getsyx)
 }
 
 
-/*
- * result = halfdelay(count)
- */
-DECLARE(halfdelay)
-{
-	int count = luaL_checkinteger(L, 1);
-	lua_pushinteger(L, halfdelay(count));
-	return 1;
-}
-
-
+DEFINE_RINT_INT(halfdelay)
 DEFINE_RBOOL(has_colors)
 DEFINE_RBOOL(has_ic)
 
@@ -411,17 +365,7 @@ DECLARE(resizeterm)
 }
 
 
-/*
- * result = scrl(n)
- */
-DECLARE(scrl)
-{
-	int n = luaL_checkinteger(L, 1);
-	lua_pushinteger(L, scrl(n));
-	return 1;
-}
-
-
+DEFINE_RINT_INT(scrl)
 DEFINE_RINT_WINDOW(scroll)
 
 
@@ -500,6 +444,7 @@ DEFINE_RINT_WINDOW(wstandout)
 #undef DEFINE_RVOID
 #undef DEFINE_RBOOL
 #undef DEFINE_RINT
+#undef DEFINE_RINT_INT
 #undef DEFINE_RINT_STRING
 #undef DEFINE_RINT_WINDOW
 
