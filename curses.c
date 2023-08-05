@@ -7,10 +7,35 @@
 #include <lua.h>
 #include <lauxlib.h>
 
-int luaopen_curses(lua_State *L);
+/* *********** */
+
+#define WINDOW_LTYPE "WINDOW"
 
 #define DECLARE(x) static int curses_##x(lua_State *L)
-#define WINDOW_LTYPE "WINDOW"
+
+#define DEFINE_RVOID(x)			\
+DECLARE(x)				\
+{					\
+	x();				\
+	return 0;			\
+}
+
+#define DEFINE_RBOOL(x)			\
+DECLARE(x)				\
+{					\
+	lua_pushboolean(L, x());	\
+	return 1;			\
+}
+
+#define DEFINE_RINT(x)			\
+DECLARE(x)				\
+{					\
+	lua_pushinteger(L, x());	\
+	return 1;			\
+}
+
+
+int luaopen_curses(lua_State *L);
 
 DECLARE(addch);
 DECLARE(addstr);
@@ -139,21 +164,13 @@ DECLARE(attrset)
 /*
  * bits_per_second = baudrate()
  */
-DECLARE(baudrate)
-{
-	lua_pushinteger(L, baudrate());
-	return 1;
-}
+DEFINE_RINT(baudrate)
 
 
 /*
  * result = beep()
  */
-DECLARE(beep)
-{
-	lua_pushinteger(L, beep());
-	return 1;
-}
+DEFINE_RINT(beep)
 
 
 /*
@@ -172,41 +189,25 @@ DECLARE(box)
 /*
  * result = cbreak()
  */
-DECLARE(cbreak)
-{
-	lua_pushinteger(L, cbreak());
-	return 1;
-}
+DEFINE_RINT(cbreak)
 
 
 /*
  * result = clear()
  */
-DECLARE(clear)
-{
-	lua_pushinteger(L, clear());
-	return 1;
-}
+DEFINE_RINT(clear)
 
 
 /*
  * result = clrtobot()
  */
-DECLARE(clrtobot)
-{
-	lua_pushinteger(L, clrtobot());
-	return 1;
-}
+DEFINE_RINT(clrtobot)
 
 
 /*
  * result = clrtoeol()
  */
-DECLARE(clrtoeol)
-{
-	lua_pushinteger(L, clrtoeol());
-	return 1;
-}
+DEFINE_RINT(clrtoeol)
 
 
 /*
@@ -223,71 +224,43 @@ DECLARE(curs_set)
 /*
  * result = delch()
  */
-DECLARE(delch)
-{
-	lua_pushinteger(L, delch());
-	return 1;
-}
+DEFINE_RINT(delch)
 
 
 /*
  * result = deleteln
  */
-DECLARE(deleteln)
-{
-	lua_pushinteger(L, deleteln());
-	return 1;
-}
+DEFINE_RINT(deleteln)
 
 
 /*
  * result = echo()
  */
-DECLARE(echo)
-{
-	lua_pushinteger(L, echo());
-	return 1;
-}
+DEFINE_RINT(echo)
 
 
 /*
  * result = endwin()
  */
-DECLARE(endwin)
-{
-	lua_pushinteger(L, endwin());
-	return 1;
-}
+DEFINE_RINT(endwin)
 
 
 /*
  * result = erase()
  */
-DECLARE(erase)
-{
-	lua_pushinteger(L, erase());
-	return 1;
-}
+DEFINE_RINT(erase)
 
 
 /*
  * filter()
  */
-DECLARE(filter)
-{
-	filter();
-	return 0;
-}
+DEFINE_RVOID(filter)
 
 
 /*
  * result = flash()
  */
-DECLARE(flash)
-{
-	lua_pushinteger(L, flash());
-	return 1;
-}
+DEFINE_RINT(flash)
 
 
 /*
@@ -315,11 +288,7 @@ DECLARE(getbegy)
 /*
  * result = getch()
  */
-DECLARE(getch)
-{
-	lua_pushinteger(L, getch());
-	return 1;
-}
+DEFINE_RINT(getch)
 
 
 /*
@@ -416,21 +385,13 @@ DECLARE(halfdelay)
 /*
  * result = has_colors()
  */
-DECLARE(has_colors)
-{
-	lua_pushboolean(L, has_colors());
-	return 1;
-}
+DEFINE_RBOOL(has_colors)
 
 
 /*
  * bool = has_ic()
  */
-DECLARE(has_ic)
-{
-	lua_pushboolean(L, has_ic());
-	return 1;
-}
+DEFINE_RBOOL(has_ic)
 
 
 /*
@@ -494,11 +455,7 @@ DECLARE(insch)
 /*
  * bool = isendwin()
  */
-DECLARE(isendwin)
-{
-	lua_pushboolean(L, isendwin());
-	return 1;
-}
+DEFINE_RBOOL(isendwin)
 
 
 /*
@@ -570,71 +527,43 @@ DECLARE(mvcur)
 /*
  * result = nl()
  */
-DECLARE(nl)
-{
-	lua_pushinteger(L, nl());
-	return 1;
-}
+DEFINE_RINT(nl)
 
 
 /*
  * result = nocbreak()
  */
-DECLARE(nocbreak)
-{
-	lua_pushinteger(L, nocbreak());
-	return 1;
-}
+DEFINE_RINT(nocbreak)
 
 
 /*
  * result = noecho()
  */
-DECLARE(noecho)
-{
-	lua_pushinteger(L, noecho());
-	return 1;
-}
+DEFINE_RINT(noecho)
 
 
 /*
  * result = nonl()
  */
-DECLARE(nonl)
-{
-	lua_pushinteger(L, nonl());
-	return 1;
-}
+DEFINE_RINT(nonl)
 
 
 /*
  * result = noraw()
  */
-DECLARE(noraw)
-{
-	lua_pushinteger(L, noraw());
-	return 1;
-}
+DEFINE_RINT(noraw)
 
 
 /*
  * result = raw()
  */
-DECLARE(raw)
-{
-	lua_pushinteger(L, raw());
-	return 1;
-}
+DEFINE_RINT(raw)
 
 
 /*
  * result = refresh()
  */
-DECLARE(refresh)
-{
-	lua_pushinteger(L, refresh());
-	return 1;
-}
+DEFINE_RINT(refresh)
 
 
 /*
@@ -723,21 +652,13 @@ DECLARE(setsyx)
 /*
  * result = standend()
  */
-DECLARE(standend)
-{
-	lua_pushinteger(L, standend());
-	return 1;
-}
+DEFINE_RINT(standend)
 
 
 /*
  * result = standout()
  */
-DECLARE(standout)
-{
-	lua_pushinteger(L, standout());
-	return 1;
-}
+DEFINE_RINT(standout)
 
 
 /*
@@ -754,21 +675,13 @@ DECLARE(timeout)
 /*
  * result = underend()
  */
-DECLARE(underend)
-{
-	lua_pushinteger(L, underend());
-	return 1;
-}
+DEFINE_RINT(underend)
 
 
 /*
  * result = underscore()
  */
-DECLARE(underscore)
-{
-	lua_pushinteger(L, underscore());
-	return 1;
-}
+DEFINE_RINT(underscore)
 
 
 /*
@@ -805,6 +718,9 @@ DECLARE(wstandout)
 }
 
 #undef DECLARE
+#undef DEFINE_RVIOD
+#undef DEFINE_RBOOL
+#undef DEFINE_RINT
 
 /* ********** */
 
