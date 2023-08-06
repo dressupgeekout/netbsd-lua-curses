@@ -67,6 +67,16 @@ DECLARE(x)					\
 	return 1;				\
 }
 
+#define DEFINE_RINT_WINDOW_BOOL(x)				\
+DECLARE(x)							\
+{								\
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);	\
+	luaL_checktype(L, 2, LUA_TBOOLEAN);			\
+	bool arg2 = lua_toboolean(L, 2);			\
+	lua_pushinteger(L, x(*window, arg2));			\
+	return 1;						\
+}
+
 /* ********** */
 
 int luaopen_curses(lua_State *L);
@@ -81,6 +91,7 @@ DECLARE(beep);
 DECLARE(box);
 DECLARE(cbreak);
 DECLARE(clear);
+DECLARE(clearok);
 DECLARE(clrtobot);
 DECLARE(clrtoeol);
 DECLARE(curs_set);
@@ -91,6 +102,7 @@ DECLARE(endwin);
 DECLARE(erase);
 DECLARE(filter);
 DECLARE(flash);
+DECLARE(flushok);
 DECLARE(getbegx);
 DECLARE(getbegy);
 DECLARE(getch);
@@ -105,13 +117,17 @@ DECLARE(halfdelay);
 DECLARE(has_colors);
 DECLARE(has_ic);
 DECLARE(hline);
+DECLARE(idcok);
 DECLARE(idlok);
+DECLARE(immedok);
 DECLARE(inch);
 DECLARE(initscr);
 DECLARE(insch);
 DECLARE(insertln);
+DECLARE(intrflush);
 DECLARE(isendwin);
 DECLARE(keypad);
+DECLARE(leaveok);
 DECLARE(meta);
 DECLARE(move);
 DECLARE(mvaddstr);
@@ -122,10 +138,12 @@ DECLARE(mvinch);
 DECLARE(napms);
 DECLARE(nl);
 DECLARE(nocbreak);
+DECLARE(nodelay);
 DECLARE(noecho);
 DECLARE(nonl);
 DECLARE(noqiflush);
 DECLARE(noraw);
+DECLARE(notimeout);
 DECLARE(qiflush);
 DECLARE(raw);
 DECLARE(refresh);
@@ -140,6 +158,7 @@ DECLARE(setscrreg);
 DECLARE(setsyx);
 DECLARE(standend);
 DECLARE(standout);
+DECLARE(syncok);
 DECLARE(timeout);
 DECLARE(underend);
 DECLARE(underscore);
@@ -183,6 +202,7 @@ DECLARE(box)
 
 DEFINE_RINT(cbreak)
 DEFINE_RINT(clear)
+DEFINE_RINT_WINDOW_BOOL(clearok)
 DEFINE_RINT(clrtobot)
 DEFINE_RINT(clrtoeol)
 DEFINE_RINT_INT(curs_set)
@@ -193,6 +213,7 @@ DEFINE_RINT(endwin)
 DEFINE_RINT(erase)
 DEFINE_RVOID(filter)
 DEFINE_RINT(flash)
+DEFINE_RINT_WINDOW_BOOL(flushok)
 DEFINE_RINT_WINDOW(getbegx)
 DEFINE_RINT_WINDOW(getbegy)
 DEFINE_RINT(getch)
@@ -235,17 +256,9 @@ DECLARE(hline)
 }
 
 
-/*
- * result = idlok(window, bool)
- */
-DECLARE(idlok)
-{
-	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
-	luaL_checktype(L, 2, LUA_TBOOLEAN);
-	bool flag = lua_toboolean(L, 2);
-	lua_pushinteger(L, idlok(*window, flag));
-	return 1;
-}
+DEFINE_RINT_WINDOW_BOOL(idcok)
+DEFINE_RINT_WINDOW_BOOL(idlok)
+DEFINE_RINT_WINDOW_BOOL(immedok)
 
 
 /*
@@ -281,36 +294,11 @@ DECLARE(insch)
 }
 
 DEFINE_RINT(insertln)
+DEFINE_RINT_WINDOW_BOOL(intrflush)
 DEFINE_RBOOL(isendwin)
-
-
-/*
- * bool = keypad(window, bool)
- */
-DECLARE(keypad)
-{
-	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
-	luaL_checktype(L, 2, LUA_TBOOLEAN);
-	bool flag = lua_toboolean(L, 2);
-	lua_pushinteger(L, keypad(*window, flag));
-	return 1;
-}
-
-
-
-/*
- * result = meta(window, bool)
- */
-DECLARE(meta)
-{
-	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
-	luaL_checktype(L, 2, LUA_TBOOLEAN);
-	bool flag = lua_toboolean(L, 2);
-	lua_pushinteger(L, meta(*window, flag));
-	return 1;
-}
-
-
+DEFINE_RINT_WINDOW_BOOL(keypad)
+DEFINE_RINT_WINDOW_BOOL(leaveok)
+DEFINE_RINT_WINDOW_BOOL(meta)
 DEFINE_RINT_INT_INT(move)
 
 
@@ -347,10 +335,12 @@ DEFINE_RINT_INT_INT(mvinch)
 DEFINE_RINT_INT(napms)
 DEFINE_RINT(nl)
 DEFINE_RINT(nocbreak)
+DEFINE_RINT_WINDOW_BOOL(nodelay)
 DEFINE_RINT(noecho)
 DEFINE_RINT(nonl)
 DEFINE_RVOID(noqiflush)
 DEFINE_RINT(noraw)
+DEFINE_RINT_WINDOW_BOOL(notimeout)
 DEFINE_RVOID(qiflush)
 DEFINE_RINT(raw)
 DEFINE_RINT(refresh)
@@ -360,21 +350,7 @@ DEFINE_RINT_INT_INT(resizeterm)
 DEFINE_RINT(savetty)
 DEFINE_RINT_INT(scrl)
 DEFINE_RINT_WINDOW(scroll)
-
-
-/*
- * result = scrollok(window, bool)
- */
-DECLARE(scrollok)
-{
-	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);
-	luaL_checktype(L, 2, LUA_TBOOLEAN);
-	bool flag = lua_toboolean(L, 2); 
-	lua_pushinteger(L, scrollok(*window, flag));
-	return 1;
-}
-
-
+DEFINE_RINT_WINDOW_BOOL(scrollok)
 DEFINE_RINT_INT_INT(setscrreg)
 
 
@@ -392,6 +368,7 @@ DECLARE(setsyx)
 
 DEFINE_RINT(standend)
 DEFINE_RINT(standout)
+DEFINE_RINT_WINDOW_BOOL(syncok)
 
 
 /*
@@ -432,6 +409,7 @@ DEFINE_RINT_WINDOW(wstandout)
 #undef DEFINE_RINT_STRING
 #undef DEFINE_RINT_WINDOW
 #undef DEFINE_RINT_INT_INT
+#undef DEFINE_RINT_WINDOW_BOOL
 
 /* ********** */
 
@@ -587,6 +565,7 @@ luaopen_curses(lua_State *L)
 		BINDING(box),
 		BINDING(cbreak),
 		BINDING(clear),
+		BINDING(clearok),
 		BINDING(clrtobot),
 		BINDING(clrtoeol),
 		BINDING(curs_set),
@@ -597,6 +576,7 @@ luaopen_curses(lua_State *L)
 		BINDING(erase),
 		BINDING(filter),
 		BINDING(flash),
+		BINDING(flushok),
 		BINDING(getbegx),
 		BINDING(getbegy),
 		BINDING(getch),
@@ -611,13 +591,17 @@ luaopen_curses(lua_State *L)
 		BINDING(has_colors),
 		BINDING(has_ic),
 		BINDING(hline),
+		BINDING(idcok),
 		BINDING(idlok),
+		BINDING(immedok),
 		BINDING(initscr),
 		BINDING(inch),
 		BINDING(insch),
 		BINDING(insertln),
+		BINDING(intrflush),
 		BINDING(isendwin),
 		BINDING(keypad),
+		BINDING(leaveok),
 		BINDING(meta),
 		BINDING(move),
 		BINDING(mvaddstr),
@@ -628,10 +612,12 @@ luaopen_curses(lua_State *L)
 		BINDING(napms),
 		BINDING(nl),
 		BINDING(nocbreak),
+		BINDING(nodelay),
 		BINDING(noecho),
 		BINDING(nonl),
 		BINDING(noqiflush),
 		BINDING(noraw),
+		BINDING(notimeout),
 		BINDING(qiflush),
 		BINDING(raw),
 		BINDING(refresh),
@@ -646,6 +632,7 @@ luaopen_curses(lua_State *L)
 		BINDING(setsyx),
 		BINDING(standend),
 		BINDING(standout),
+		BINDING(syncok),
 		BINDING(timeout),
 		BINDING(underend),
 		BINDING(underscore),
