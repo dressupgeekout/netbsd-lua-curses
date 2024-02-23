@@ -80,6 +80,17 @@ DECLARE(x)							\
 	return 1;						\
 }
 
+#define DEFINE_RINT_WINDOW_INT_INT(x)				\
+DECLARE(x)							\
+{								\
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);	\
+	int arg2 = luaL_checkinteger(L, 2);			\
+	int arg3 = luaL_checkinteger(L, 3);			\
+	lua_pushinteger(L, x(*window, arg2, arg3));		\
+	return 1;						\
+}
+
+
 /*
  * There are several functions in libcurses which actually return an int,
  * but their purpose is to get a string and "return" it via one of the
@@ -156,6 +167,7 @@ DECLARE(mvcur);
 DECLARE(mvdelch);
 DECLARE(mvgetch);
 DECLARE(mvinch);
+DECLARE(mvwin);
 DECLARE(napms);
 DECLARE(nl);
 DECLARE(nocbreak);
@@ -183,7 +195,12 @@ DECLARE(syncok);
 DECLARE(timeout);
 DECLARE(underend);
 DECLARE(underscore);
+DECLARE(ungetch);
 DECLARE(vline);
+DECLARE(wclear);
+DECLARE(wclrtobot);
+DECLARE(wclrtoeol);
+DECLARE(wmove);
 DECLARE(wstandend);
 DECLARE(wstandout);
 
@@ -247,8 +264,9 @@ DEFINE_RINT_WINDOW(getcury)
 DEFINE_RINT_WINDOW(getmaxx)
 DEFINE_RINT_WINDOW(getmaxy)
 
+
 /*
- * int, string = getnstr(limit)
+ * int, result = getnstr(limit)
  */
 DECLARE(getnstr)
 {
@@ -313,14 +331,7 @@ DECLARE(initscr)
 }
 
 
-/*
- * inch()
- */
-DECLARE(inch)
-{
-	lua_pushinteger(L, inch());
-	return 1;
-}
+DEFINE_RINT(inch)
 
 
 /*
@@ -372,6 +383,7 @@ DECLARE(mvcur)
 DEFINE_RINT_INT_INT(mvdelch)
 DEFINE_RINT_INT_INT(mvgetch)
 DEFINE_RINT_INT_INT(mvinch)
+DEFINE_RINT_WINDOW_INT_INT(mvwin)
 DEFINE_RINT_INT(napms)
 DEFINE_RINT(nl)
 DEFINE_RINT(nocbreak)
@@ -424,6 +436,7 @@ DECLARE(timeout)
 
 DEFINE_RINT(underend)
 DEFINE_RINT(underscore)
+DEFINE_RINT_INT(ungetch)
 
 
 /*
@@ -438,6 +451,10 @@ DECLARE(vline)
 }
 
 
+DEFINE_RINT_WINDOW(wclear)
+DEFINE_RINT_WINDOW(wclrtobot)
+DEFINE_RINT_WINDOW(wclrtoeol)
+DEFINE_RINT_WINDOW_INT_INT(wmove)
 DEFINE_RINT_WINDOW(wstandend)
 DEFINE_RINT_WINDOW(wstandout)
 
@@ -454,6 +471,7 @@ DEFINE_RINT_RSTRING_STRING(getstr)
 #undef DEFINE_RINT_WINDOW
 #undef DEFINE_RINT_INT_INT
 #undef DEFINE_RINT_WINDOW_BOOL
+#undef DEFINE_RINT_RSTRING_STRING
 
 /* ********** */
 
@@ -654,6 +672,7 @@ luaopen_curses(lua_State *L)
 		BINDING(mvdelch),
 		BINDING(mvgetch),
 		BINDING(mvinch),
+		BINDING(mvwin),
 		BINDING(napms),
 		BINDING(nl),
 		BINDING(nocbreak),
@@ -681,7 +700,12 @@ luaopen_curses(lua_State *L)
 		BINDING(timeout),
 		BINDING(underend),
 		BINDING(underscore),
+		BINDING(ungetch),
 		BINDING(vline),
+		BINDING(wclear),
+		BINDING(wclrtobot),
+		BINDING(wclrtoeol),
+		BINDING(wmove),
 		BINDING(wstandend),
 		BINDING(wstandout),
 
