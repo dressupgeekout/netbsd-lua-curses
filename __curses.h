@@ -463,8 +463,8 @@ __END_DECLS
 #define	echochar(c)			wechochar(stdscr, c)
 //!#define	erase()				werase(stdscr)
 //!#define	getch()				wgetch(stdscr)
-#define	getnstr(s, n)			wgetnstr(stdscr, s, n)
-#define	getstr(s)			wgetstr(stdscr, s)
+//!#define	getnstr(s, n)			wgetnstr(stdscr, s, n)
+//!#define	getstr(s)			wgetstr(stdscr, s)
 //!#define	inch()				winch(stdscr)
 #define	inchnstr(c)			winchnstr(stdscr, c)
 #define	inchstr(c)			winchstr(stdscr, c)
@@ -568,8 +568,8 @@ int	 color_set(short, void *);
 int	 echochar(const chtype);
 //!int	 erase(void);
 //!int	 getch(void);
-int	 getnstr(char *, int);
-int	 getstr(char *);
+//!int	 getnstr(char *, int);
+//!int	 getstr(char *);
 //!chtype	 inch(void);
 int	 inchnstr(chtype *, int);
 int	 inchstr(chtype *);

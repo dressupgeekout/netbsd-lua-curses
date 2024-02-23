@@ -1,6 +1,8 @@
 /* $NetBSD$ */
 
+#include <limits.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include <curses.h>
 
@@ -50,6 +52,7 @@ DECLARE(x)						\
 	return 1;					\
 }
 
+
 #define DEFINE_RINT_WINDOW(x)					\
 DECLARE(x)							\
 {								\
@@ -76,6 +79,23 @@ DECLARE(x)							\
 	lua_pushinteger(L, x(*window, arg2));			\
 	return 1;						\
 }
+
+/*
+ * There are several functions in libcurses which actually return an int,
+ * but their purpose is to get a string and "return" it via one of the
+ * parameters. In these cases, our Lua binding will return 2 values: first
+ * is the actual return value (the int), and the second is the string which
+ * was just "gotten."
+ */
+#define DEFINE_RINT_RSTRING_STRING(x)	\
+DECLARE(x)				\
+{					\
+	static char result[LINE_MAX];	\
+	lua_pushinteger(L, x(result));	\
+	lua_pushstring(L, result);	\
+	return 2;			\
+}
+
 
 /* ********** */
 
@@ -110,6 +130,7 @@ DECLARE(getcurx);
 DECLARE(getcury);
 DECLARE(getmaxx);
 DECLARE(getmaxy);
+DECLARE(getnstr);
 DECLARE(getparx);
 DECLARE(getpary);
 DECLARE(getsyx);
@@ -166,6 +187,10 @@ DECLARE(vline);
 DECLARE(wstandend);
 DECLARE(wstandout);
 
+#ifdef LUA_CURSES_UNSAFE
+DECLARE(getstr);
+#endif /* LUA_CURSES_UNSAFE */
+
 /* ********** */
 
 /*
@@ -221,6 +246,21 @@ DEFINE_RINT_WINDOW(getcurx)
 DEFINE_RINT_WINDOW(getcury)
 DEFINE_RINT_WINDOW(getmaxx)
 DEFINE_RINT_WINDOW(getmaxy)
+
+/*
+ * int, string = getnstr(limit)
+ */
+DECLARE(getnstr)
+{
+	int limit = luaL_checkinteger(L, 1);
+	char *result = malloc(limit);
+	lua_pushinteger(L, getnstr(result, limit));
+	lua_pushstring(L, (const char *)result);
+	free(result);
+	return 2;
+}
+
+
 DEFINE_RINT_WINDOW(getparx)
 DEFINE_RINT_WINDOW(getpary)
 
@@ -400,6 +440,10 @@ DECLARE(vline)
 
 DEFINE_RINT_WINDOW(wstandend)
 DEFINE_RINT_WINDOW(wstandout)
+
+#ifdef LUA_CURSES_UNSAFE
+DEFINE_RINT_RSTRING_STRING(getstr)
+#endif /* LUA_CURSES_UNSAFE */
 
 #undef DECLARE
 #undef DEFINE_RVOID
@@ -584,6 +628,7 @@ luaopen_curses(lua_State *L)
 		BINDING(getcury),
 		BINDING(getmaxx),
 		BINDING(getmaxy),
+		BINDING(getnstr),
 		BINDING(getparx),
 		BINDING(getpary),
 		BINDING(getsyx),
@@ -639,6 +684,11 @@ luaopen_curses(lua_State *L)
 		BINDING(vline),
 		BINDING(wstandend),
 		BINDING(wstandout),
+
+#ifdef LUA_CURSES_UNSAFE
+		BINDING(getstr),
+#endif /* LUA_CURSES_UNSAFE */
+
 		{NULL, NULL},
 	};
 

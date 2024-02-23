@@ -35,6 +35,14 @@ curses.attroff(A_REVERSE)
 curses.mvaddstr(20, 5, "this will be deleted")
 curses.deleteln()
 curses.mvaddstr(21, 5, "but this will be visible")
+
+local _, result = curses.getnstr(5)
+curses.mvaddstr(22, 5, string.format("the first 5 chars of what you typed was: %q", result))
+
+-- unsafe stuff:
+--local a, b = curses.getstr()
+--curses.mvaddstr(23, 5, string.format("the getstr result is %q", b))
+
 curses.refresh()
 curses.getch()
 curses.clear()
