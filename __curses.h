@@ -301,31 +301,31 @@ __END_DECLS
 #endif
 
 /* Standard definitions */
-#define	ACS_RARROW	_acs_char[__UC_CAST('+')]
-#define	ACS_LARROW	_acs_char[__UC_CAST(',')]
-#define	ACS_UARROW	_acs_char[__UC_CAST('-')]
-#define	ACS_DARROW	_acs_char[__UC_CAST('.')]
-#define	ACS_BLOCK	_acs_char[__UC_CAST('0')]
-#define	ACS_DIAMOND	_acs_char[__UC_CAST('`')]
-#define	ACS_CKBOARD	_acs_char[__UC_CAST('a')]
-#define	ACS_DEGREE	_acs_char[__UC_CAST('f')]
-#define	ACS_PLMINUS	_acs_char[__UC_CAST('g')]
-#define	ACS_BOARD	_acs_char[__UC_CAST('h')]
-#define	ACS_LANTERN	_acs_char[__UC_CAST('i')]
-#define	ACS_LRCORNER	_acs_char[__UC_CAST('j')]
-#define	ACS_URCORNER	_acs_char[__UC_CAST('k')]
-#define	ACS_ULCORNER	_acs_char[__UC_CAST('l')]
-#define	ACS_LLCORNER	_acs_char[__UC_CAST('m')]
-#define	ACS_PLUS	_acs_char[__UC_CAST('n')]
-#define	ACS_HLINE	_acs_char[__UC_CAST('q')]
-#define	ACS_S1		_acs_char[__UC_CAST('o')]
-#define	ACS_S9		_acs_char[__UC_CAST('s')]
-#define	ACS_LTEE	_acs_char[__UC_CAST('t')]
-#define	ACS_RTEE	_acs_char[__UC_CAST('u')]
-#define	ACS_BTEE	_acs_char[__UC_CAST('v')]
-#define	ACS_TTEE	_acs_char[__UC_CAST('w')]
-#define	ACS_VLINE	_acs_char[__UC_CAST('x')]
-#define	ACS_BULLET	_acs_char[__UC_CAST('~')]
+//!#define	ACS_RARROW	_acs_char[__UC_CAST('+')]
+//!#define	ACS_LARROW	_acs_char[__UC_CAST(',')]
+//!#define	ACS_UARROW	_acs_char[__UC_CAST('-')]
+//!#define	ACS_DARROW	_acs_char[__UC_CAST('.')]
+//!#define	ACS_BLOCK	_acs_char[__UC_CAST('0')]
+//!#define	ACS_DIAMOND	_acs_char[__UC_CAST('`')]
+//!#define	ACS_CKBOARD	_acs_char[__UC_CAST('a')]
+//!#define	ACS_DEGREE	_acs_char[__UC_CAST('f')]
+//!#define	ACS_PLMINUS	_acs_char[__UC_CAST('g')]
+//!#define	ACS_BOARD	_acs_char[__UC_CAST('h')]
+//!#define	ACS_LANTERN	_acs_char[__UC_CAST('i')]
+//!#define	ACS_LRCORNER	_acs_char[__UC_CAST('j')]
+//!#define	ACS_URCORNER	_acs_char[__UC_CAST('k')]
+//!#define	ACS_ULCORNER	_acs_char[__UC_CAST('l')]
+//!#define	ACS_LLCORNER	_acs_char[__UC_CAST('m')]
+//!#define	ACS_PLUS	_acs_char[__UC_CAST('n')]
+//!#define	ACS_HLINE	_acs_char[__UC_CAST('q')]
+//!#define	ACS_S1		_acs_char[__UC_CAST('o')]
+//!#define	ACS_S9		_acs_char[__UC_CAST('s')]
+//!#define	ACS_LTEE	_acs_char[__UC_CAST('t')]
+//!#define	ACS_RTEE	_acs_char[__UC_CAST('u')]
+//!#define	ACS_BTEE	_acs_char[__UC_CAST('v')]
+//!#define	ACS_TTEE	_acs_char[__UC_CAST('w')]
+//!#define	ACS_VLINE	_acs_char[__UC_CAST('x')]
+//!#define	ACS_BULLET	_acs_char[__UC_CAST('~')]
 
 /* Extensions */
 #define	ACS_S3		_acs_char[__UC_CAST('p')]
@@ -452,7 +452,7 @@ __END_DECLS
 //!#define	attrset(attr)			wattrset(stdscr, attr)
 #define bkgd(ch)			wbkgd(stdscr, ch)
 #define bkgdset(ch)			wbkgdset(stdscr, ch)
-#define	border(l, r, t, b, tl, tr, bl, br) \
+//!#define	border(l, r, t, b, tl, tr, bl, br) \
 	wborder(stdscr, l, r, t, b, tl, tr, bl, br)
 //!#define	clear()				wclear(stdscr)
 //!#define	clrtobot()			wclrtobot(stdscr)
@@ -557,7 +557,7 @@ int	 attr_set(attr_t, short, void *);
 int	 attrset(int);
 int	 bkgd(chtype);
 void	 bkgdset(chtype);
-int	 border(chtype, chtype, chtype, chtype,
+//!int	 border(chtype, chtype, chtype, chtype,
 	   chtype, chtype, chtype, chtype);
 //!int	 clear(void);
 //!int	 clrtobot(void);
