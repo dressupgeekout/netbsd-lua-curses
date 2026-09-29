@@ -147,11 +147,11 @@ typedef chtype cchar_t;
  *  C1  down C3
  *
  */
-//1#define    KEY_A1         0x15C    /* Keypad upper left */
-//1#define    KEY_A3         0x15D    /* Keypad upper right */
-//1#define    KEY_B2         0x15E    /* Keypad centre key */
-//1#define    KEY_C1         0x15F    /* Keypad lower left */
-//1#define    KEY_C3         0x160    /* Keypad lower right */
+//!#define    KEY_A1         0x15C    /* Keypad upper left */
+//!#define    KEY_A3         0x15D    /* Keypad upper right */
+//!#define    KEY_B2         0x15E    /* Keypad centre key */
+//!#define    KEY_C1         0x15F    /* Keypad lower left */
+//!#define    KEY_C3         0x160    /* Keypad lower right */
 
 //!#define    KEY_BTAB       0x161    /* Back Tab */
 //!#define    KEY_BEG        0x162    /* Begin key */
@@ -470,7 +470,7 @@ __END_DECLS
 #define	inchstr(c)			winchstr(stdscr, c)
 #define	innstr(s, n)			winnstr(stdscr, s, n)
 //!#define	insch(ch)			winsch(stdscr, ch)
-#define	insdelln(n)			winsdelln(stdscr, n)
+//!#define	insdelln(n)			winsdelln(stdscr, n)
 //!#define	insertln()			winsertln(stdscr)
 #define	instr(s)			winstr(stdscr, s)
 //!#define	move(y, x)			wmove(stdscr, y, x)
@@ -575,9 +575,9 @@ int	 inchnstr(chtype *, int);
 int	 inchstr(chtype *);
 int	 innstr(char *, int);
 //!int	 insch(chtype);
-int	 insdelln(int);
+//!int	 insdelln(int);
 //!int	 insertln(void);
-int	 instr(char *);
+//! SKIPPED int	 instr(char *);
 //!int	 move(int, int);
 //!int	 refresh(void);
 //!int	 scrl(int);
@@ -652,7 +652,7 @@ int	 assume_default_colors(short, short);
 //!int	 baudrate(void);
 //!int	 beep(void);
 //!int	 box(WINDOW *, chtype, chtype);
-bool	 can_change_color(void);
+//!bool	 can_change_color(void);
 //!int	 cbreak(void);
 //!int	 clearok(WINDOW *, bool);
 int	 color_content(short, short *, short *, short *);
@@ -663,16 +663,16 @@ int	 def_shell_mode(void);
 int      define_key(char *, int);
 int	 delay_output(int);
 void     delscreen(SCREEN *);
-int	 delwin(WINDOW *);
+//!int	 delwin(WINDOW *);
 WINDOW	*derwin(WINDOW *, int, int, int, int);
 WINDOW	*dupwin(WINDOW *);
-int	 doupdate(void);
+//!int	 doupdate(void);
 //!int	 echo(void);
 //!int	 endwin(void);
 char     erasechar(void);
 //!void	 filter(void);
 //!int	 flash(void);
-int	 flushinp(void);
+//!int	 flushinp(void);
 //!int	 flushok(WINDOW *, bool);
 char	*fullname(const char *, char *);
 chtype	 getattrs(WINDOW *);
@@ -817,7 +817,7 @@ int	 winnstr(WINDOW *, char *, int);
 int	 winsch(WINDOW *, chtype);
 int	 winsdelln(WINDOW *, int);
 int	 winsertln(WINDOW *);
-int	 winstr(WINDOW *, char *);
+//! SKIPPED int	 winstr(WINDOW *, char *);
 //!int	 wmove(WINDOW *, int, int);
 int	 wnoutrefresh(WINDOW *);
 int	 wprintw(WINDOW *, const char *, ...)  __printflike(2, 3);
@@ -829,8 +829,8 @@ int	 wscrl(WINDOW *, int);
 int	 wsetscrreg(WINDOW *, int, int);
 //!int	 wstandend(WINDOW *);
 //!int	 wstandout(WINDOW *);
-void	 wsyncdown(WINDOW *);
-void	 wsyncup(WINDOW *);
+//!void	 wsyncdown(WINDOW *);
+//!void	 wsyncup(WINDOW *);
 void	 wtimeout(WINDOW *, int);
 int	 wtouchln(WINDOW *, int, int, int);
 int	 wunderend(WINDOW *);
@@ -838,7 +838,7 @@ int	 wunderscore(WINDOW *);
 int	 wvline(WINDOW *, chtype, int);
 
 int insnstr(const char *, int);
-int insstr(const char *);
+//!int insstr(const char *);
 int mvinsnstr(int, int, const char *, int);
 int mvinsstr(int, int, const char *);
 int mvwinsnstr(WINDOW *, int, int, const char *, int);

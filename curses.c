@@ -1,5 +1,32 @@
 /* $NetBSD$ */
 
+/*
+ * Copyright (c) 2026 Charlotte Koch.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE NETBSD FOUNDATION, INC. AND CONTRIBUTORS
+ * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 #include <limits.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -50,6 +77,14 @@ DECLARE(x)						\
 	const char *string = luaL_checkstring(L, 1);	\
 	lua_pushinteger(L, x(string));			\
 	return 1;					\
+}
+
+#define DEFINE_RVOID_WINDOW(x)					\
+DECLARE(x)							\
+{								\
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);	\
+	x(*window);						\
+	return 0;						\
 }
 
 
@@ -121,12 +156,15 @@ DECLARE(baudrate);
 DECLARE(beep);
 DECLARE(border);
 DECLARE(box);
+DECLARE(can_change_color);
 DECLARE(cbreak);
 DECLARE(clear);
 DECLARE(clearok);
 DECLARE(clrtobot);
 DECLARE(clrtoeol);
 DECLARE(curs_set);
+DECLARE(delwin);
+DECLARE(doupdate);
 DECLARE(delch);
 DECLARE(deleteln);
 DECLARE(echo);
@@ -134,6 +172,7 @@ DECLARE(endwin);
 DECLARE(erase);
 DECLARE(filter);
 DECLARE(flash);
+DECLARE(flushinp);
 DECLARE(flushok);
 DECLARE(getbegx);
 DECLARE(getbegy);
@@ -156,6 +195,7 @@ DECLARE(immedok);
 DECLARE(inch);
 DECLARE(initscr);
 DECLARE(insch);
+DECLARE(insdelln);
 DECLARE(insertln);
 DECLARE(intrflush);
 DECLARE(isendwin);
@@ -204,6 +244,9 @@ DECLARE(wclrtoeol);
 DECLARE(wmove);
 DECLARE(wstandend);
 DECLARE(wstandout);
+DECLARE(wsyncdown);
+DECLARE(wsyncup);
+DECLARE(insstr);
 
 #ifdef LUA_CURSES_UNSAFE
 DECLARE(getstr);
@@ -262,12 +305,15 @@ DECLARE(box)
 }
 
 
+DEFINE_RBOOL(can_change_color)
 DEFINE_RINT(cbreak)
 DEFINE_RINT(clear)
 DEFINE_RINT_WINDOW_BOOL(clearok)
 DEFINE_RINT(clrtobot)
 DEFINE_RINT(clrtoeol)
 DEFINE_RINT_INT(curs_set)
+DEFINE_RINT_WINDOW(delwin)
+DEFINE_RINT(doupdate)
 DEFINE_RINT(delch)
 DEFINE_RINT(deleteln)
 DEFINE_RINT(echo)
@@ -275,6 +321,7 @@ DEFINE_RINT(endwin)
 DEFINE_RINT(erase)
 DEFINE_RVOID(filter)
 DEFINE_RINT(flash)
+DEFINE_RINT(flushinp)
 DEFINE_RINT_WINDOW_BOOL(flushok)
 DEFINE_RINT_WINDOW(getbegx)
 DEFINE_RINT_WINDOW(getbegy)
@@ -364,6 +411,7 @@ DECLARE(insch)
 	return 1;
 }
 
+DEFINE_RINT_INT(insdelln);
 DEFINE_RINT(insertln)
 DEFINE_RINT_WINDOW_BOOL(intrflush)
 DEFINE_RBOOL(isendwin)
@@ -477,6 +525,9 @@ DEFINE_RINT_WINDOW(wclrtoeol)
 DEFINE_RINT_WINDOW_INT_INT(wmove)
 DEFINE_RINT_WINDOW(wstandend)
 DEFINE_RINT_WINDOW(wstandout)
+DEFINE_RVOID_WINDOW(wsyncdown)
+DEFINE_RVOID_WINDOW(wsyncup)
+DEFINE_RINT_STRING(insstr)
 
 #ifdef LUA_CURSES_UNSAFE
 DEFINE_RINT_RSTRING_STRING(getstr)
@@ -488,6 +539,7 @@ DEFINE_RINT_RSTRING_STRING(getstr)
 #undef DEFINE_RINT
 #undef DEFINE_RINT_INT
 #undef DEFINE_RINT_STRING
+#undef DEFINE_RVOID_WINDOW
 #undef DEFINE_RINT_WINDOW
 #undef DEFINE_RINT_INT_INT
 #undef DEFINE_RINT_WINDOW_BOOL
@@ -646,12 +698,15 @@ luaopen_curses(lua_State *L)
 		BINDING(beep),
 		BINDING(border),
 		BINDING(box),
+		BINDING(can_change_color),
 		BINDING(cbreak),
 		BINDING(clear),
 		BINDING(clearok),
 		BINDING(clrtobot),
 		BINDING(clrtoeol),
 		BINDING(curs_set),
+		BINDING(delwin),
+		BINDING(doupdate),
 		BINDING(delch),
 		BINDING(deleteln),
 		BINDING(echo),
@@ -659,6 +714,7 @@ luaopen_curses(lua_State *L)
 		BINDING(erase),
 		BINDING(filter),
 		BINDING(flash),
+		BINDING(flushinp),
 		BINDING(flushok),
 		BINDING(getbegx),
 		BINDING(getbegy),
@@ -681,6 +737,7 @@ luaopen_curses(lua_State *L)
 		BINDING(initscr),
 		BINDING(inch),
 		BINDING(insch),
+		BINDING(insdelln),
 		BINDING(insertln),
 		BINDING(intrflush),
 		BINDING(isendwin),
@@ -729,6 +786,9 @@ luaopen_curses(lua_State *L)
 		BINDING(wmove),
 		BINDING(wstandend),
 		BINDING(wstandout),
+		BINDING(wsyncdown),
+		BINDING(wsyncup),
+		BINDING(insstr),
 
 #ifdef LUA_CURSES_UNSAFE
 		BINDING(getstr),
