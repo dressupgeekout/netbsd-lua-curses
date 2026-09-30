@@ -115,6 +115,15 @@ DECLARE(x)							\
 	return 1;						\
 }
 
+#define DEFINE_RINT_WINDOW_INT(x)				\
+DECLARE(x)							\
+{								\
+	WINDOW **window = luaL_checkudata(L, 1, WINDOW_LTYPE);	\
+	int arg2 = luaL_checkinteger(L, 2);			\
+	lua_pushinteger(L, x(*window, arg2));			\
+	return 1;						\
+}
+
 #define DEFINE_RINT_WINDOW_INT_INT(x)				\
 DECLARE(x)							\
 {								\
@@ -124,7 +133,6 @@ DECLARE(x)							\
 	lua_pushinteger(L, x(*window, arg2, arg3));		\
 	return 1;						\
 }
-
 
 /*
  * There are several functions in libcurses which actually return an int,
@@ -141,7 +149,6 @@ DECLARE(x)				\
 	lua_pushstring(L, result);	\
 	return 2;			\
 }
-
 
 /* ********** */
 
@@ -163,10 +170,10 @@ DECLARE(clearok);
 DECLARE(clrtobot);
 DECLARE(clrtoeol);
 DECLARE(curs_set);
-DECLARE(delwin);
-DECLARE(doupdate);
 DECLARE(delch);
 DECLARE(deleteln);
+DECLARE(delwin);
+DECLARE(doupdate);
 DECLARE(echo);
 DECLARE(endwin);
 DECLARE(erase);
@@ -193,10 +200,13 @@ DECLARE(idcok);
 DECLARE(idlok);
 DECLARE(immedok);
 DECLARE(inch);
+DECLARE(init_color);
+DECLARE(init_pair);
 DECLARE(initscr);
 DECLARE(insch);
 DECLARE(insdelln);
 DECLARE(insertln);
+DECLARE(insstr);
 DECLARE(intrflush);
 DECLARE(isendwin);
 DECLARE(keypad);
@@ -220,6 +230,7 @@ DECLARE(noraw);
 DECLARE(notimeout);
 DECLARE(qiflush);
 DECLARE(raw);
+DECLARE(redrawwin);
 DECLARE(refresh);
 DECLARE(resetty);
 DECLARE(resize_term);
@@ -232,25 +243,30 @@ DECLARE(setscrreg);
 DECLARE(setsyx);
 DECLARE(standend);
 DECLARE(standout);
+DECLARE(start_color);
 DECLARE(syncok);
 DECLARE(timeout);
+DECLARE(touchwin);
 DECLARE(underend);
 DECLARE(underscore);
 DECLARE(ungetch);
+DECLARE(untouchwin);
+DECLARE(use_default_colors);
 DECLARE(vline);
+DECLARE(wattroff);
+DECLARE(wattron);
+DECLARE(wattrset);
 DECLARE(wclear);
 DECLARE(wclrtobot);
 DECLARE(wclrtoeol);
+DECLARE(wdelch);
+DECLARE(wdeleteln);
 DECLARE(wmove);
+DECLARE(wrefresh);
 DECLARE(wstandend);
 DECLARE(wstandout);
 DECLARE(wsyncdown);
 DECLARE(wsyncup);
-DECLARE(insstr);
-
-#ifdef LUA_CURSES_UNSAFE
-DECLARE(getstr);
-#endif /* LUA_CURSES_UNSAFE */
 
 /* ********** */
 
@@ -264,14 +280,12 @@ DECLARE(addch)
 	return 1;
 }
 
-
 DEFINE_RINT_STRING(addstr)
 DEFINE_RINT_INT(attroff)
 DEFINE_RINT_INT(attron)
 DEFINE_RINT_INT(attrset)
 DEFINE_RINT(baudrate)
 DEFINE_RINT(beep)
-
 
 /*
  * result = border(ls, rs, ts, bs, tl, tr, bl, br)
@@ -291,7 +305,6 @@ DECLARE(border)
 	return 1;
 }
 
-
 /*
  * result = box(window, vertical, horizontal)
  */
@@ -303,7 +316,6 @@ DECLARE(box)
 	lua_pushinteger(L, box(*window, vert[0], horiz[0]));
 	return 1;
 }
-
 
 DEFINE_RBOOL(can_change_color)
 DEFINE_RINT(cbreak)
@@ -331,7 +343,6 @@ DEFINE_RINT_WINDOW(getcury)
 DEFINE_RINT_WINDOW(getmaxx)
 DEFINE_RINT_WINDOW(getmaxy)
 
-
 /*
  * int, result = getnstr(limit)
  */
@@ -345,10 +356,8 @@ DECLARE(getnstr)
 	return 2;
 }
 
-
 DEFINE_RINT_WINDOW(getparx)
 DEFINE_RINT_WINDOW(getpary)
-
 
 /*
  * y, x = getsyx()
@@ -363,11 +372,9 @@ DECLARE(getsyx)
 	return 2;
 }
 
-
 DEFINE_RINT_INT(halfdelay)
 DEFINE_RBOOL(has_colors)
 DEFINE_RBOOL(has_ic)
-
 
 /*
  * result = hline(char, n)
@@ -380,11 +387,29 @@ DECLARE(hline)
 	return 1;
 }
 
-
 DEFINE_RINT_WINDOW_BOOL(idcok)
 DEFINE_RINT_WINDOW_BOOL(idlok)
-DEFINE_RINT_WINDOW_BOOL(immedok)
 
+DECLARE(init_color)
+{
+	short color = luaL_checkinteger(L, 1);
+	short red = luaL_checkinteger(L, 2);
+	short green = luaL_checkinteger(L, 3);
+	short blue = luaL_checkinteger(L, 4);
+	lua_pushinteger(L, init_color(color, red, green, blue));
+	return 1;
+}
+
+DECLARE(init_pair)
+{
+	short pair = luaL_checkinteger(L, 1);
+	short fore = luaL_checkinteger(L, 2);
+	short back = luaL_checkinteger(L, 3);
+	lua_pushinteger(L, init_pair(pair, fore, back));
+	return 1;
+}
+
+DEFINE_RINT_WINDOW_BOOL(immedok)
 
 /*
  * window = initscr()
@@ -397,9 +422,7 @@ DECLARE(initscr)
 	return 1;
 }
 
-
 DEFINE_RINT(inch)
-
 
 /*
  * result = insch(char)
@@ -413,13 +436,13 @@ DECLARE(insch)
 
 DEFINE_RINT_INT(insdelln);
 DEFINE_RINT(insertln)
+DEFINE_RINT_STRING(insstr)
 DEFINE_RINT_WINDOW_BOOL(intrflush)
 DEFINE_RBOOL(isendwin)
 DEFINE_RINT_WINDOW_BOOL(keypad)
 DEFINE_RINT_WINDOW_BOOL(leaveok)
 DEFINE_RINT_WINDOW_BOOL(meta)
 DEFINE_RINT_INT_INT(move)
-
 
 /*
  * result = mvaddstr(y, x, string)
@@ -433,7 +456,6 @@ DECLARE(mvaddstr)
 	return 1;
 }
 
-
 /*
  * result = mvcur(oldy, oldx, y, x)
  */
@@ -446,7 +468,6 @@ DECLARE(mvcur)
 	lua_pushinteger(L, mvcur(oldy, oldx, y, x));
 	return 1;
 }
-
 
 DEFINE_RINT_INT_INT(mvdelch)
 DEFINE_RINT_INT_INT(mvgetch)
@@ -463,6 +484,7 @@ DEFINE_RINT(noraw)
 DEFINE_RINT_WINDOW_BOOL(notimeout)
 DEFINE_RVOID(qiflush)
 DEFINE_RINT(raw)
+DEFINE_RINT_WINDOW(redrawwin)
 DEFINE_RINT(refresh)
 DEFINE_RINT(resetty)
 DEFINE_RINT_INT_INT(resize_term)
@@ -471,8 +493,8 @@ DEFINE_RINT(savetty)
 DEFINE_RINT_INT(scrl)
 DEFINE_RINT_WINDOW(scroll)
 DEFINE_RINT_WINDOW_BOOL(scrollok)
+DEFINE_RINT(start_color)
 DEFINE_RINT_INT_INT(setscrreg)
-
 
 /*
  * setsyx(y, x)
@@ -485,11 +507,9 @@ DECLARE(setsyx)
 	return 0;
 }
 
-
 DEFINE_RINT(standend)
 DEFINE_RINT(standout)
 DEFINE_RINT_WINDOW_BOOL(syncok)
-
 
 /*
  * timeout(delay)
@@ -501,11 +521,12 @@ DECLARE(timeout)
 	return 0;
 }
 
-
+DEFINE_RINT_WINDOW(touchwin);
 DEFINE_RINT(underend)
 DEFINE_RINT(underscore)
 DEFINE_RINT_INT(ungetch)
-
+DEFINE_RINT_WINDOW(untouchwin);
+DEFINE_RINT(use_default_colors);
 
 /*
  * result = vline(char, n)
@@ -518,20 +539,20 @@ DECLARE(vline)
 	return 1;
 }
 
-
+DEFINE_RINT_WINDOW_INT(wattroff);
+DEFINE_RINT_WINDOW_INT(wattron);
+DEFINE_RINT_WINDOW_INT(wattrset);
 DEFINE_RINT_WINDOW(wclear)
 DEFINE_RINT_WINDOW(wclrtobot)
 DEFINE_RINT_WINDOW(wclrtoeol)
+DEFINE_RINT_WINDOW(wdelch)
+DEFINE_RINT_WINDOW(wdeleteln)
 DEFINE_RINT_WINDOW_INT_INT(wmove)
+DEFINE_RINT_WINDOW(wrefresh)
 DEFINE_RINT_WINDOW(wstandend)
 DEFINE_RINT_WINDOW(wstandout)
 DEFINE_RVOID_WINDOW(wsyncdown)
 DEFINE_RVOID_WINDOW(wsyncup)
-DEFINE_RINT_STRING(insstr)
-
-#ifdef LUA_CURSES_UNSAFE
-DEFINE_RINT_RSTRING_STRING(getstr)
-#endif /* LUA_CURSES_UNSAFE */
 
 #undef DECLARE
 #undef DEFINE_RVOID
@@ -685,7 +706,6 @@ luaopen_curses(lua_State *L)
 		lua_setglobal(L, int_constants[i].name);
 	}
 
-
 #define BINDING(x) {#x, curses_##x}
 
 	struct luaL_Reg functions[] = {
@@ -705,10 +725,10 @@ luaopen_curses(lua_State *L)
 		BINDING(clrtobot),
 		BINDING(clrtoeol),
 		BINDING(curs_set),
-		BINDING(delwin),
-		BINDING(doupdate),
 		BINDING(delch),
 		BINDING(deleteln),
+		BINDING(delwin),
+		BINDING(doupdate),
 		BINDING(echo),
 		BINDING(endwin),
 		BINDING(erase),
@@ -734,11 +754,14 @@ luaopen_curses(lua_State *L)
 		BINDING(idcok),
 		BINDING(idlok),
 		BINDING(immedok),
-		BINDING(initscr),
 		BINDING(inch),
+		BINDING(init_color),
+		BINDING(init_pair),
+		BINDING(initscr),
 		BINDING(insch),
 		BINDING(insdelln),
 		BINDING(insertln),
+		BINDING(insstr),
 		BINDING(intrflush),
 		BINDING(isendwin),
 		BINDING(keypad),
@@ -762,6 +785,7 @@ luaopen_curses(lua_State *L)
 		BINDING(notimeout),
 		BINDING(qiflush),
 		BINDING(raw),
+		BINDING(redrawwin),
 		BINDING(refresh),
 		BINDING(resetty),
 		BINDING(resize_term),
@@ -774,26 +798,30 @@ luaopen_curses(lua_State *L)
 		BINDING(setsyx),
 		BINDING(standend),
 		BINDING(standout),
+		BINDING(start_color),
 		BINDING(syncok),
 		BINDING(timeout),
+		BINDING(touchwin),
 		BINDING(underend),
 		BINDING(underscore),
 		BINDING(ungetch),
+		BINDING(untouchwin),
+		BINDING(use_default_colors),
 		BINDING(vline),
+		BINDING(wattroff),
+		BINDING(wattron),
+		BINDING(wattrset),
 		BINDING(wclear),
 		BINDING(wclrtobot),
 		BINDING(wclrtoeol),
+		BINDING(wdelch),
+		BINDING(wdeleteln),
 		BINDING(wmove),
+		BINDING(wrefresh),
 		BINDING(wstandend),
 		BINDING(wstandout),
 		BINDING(wsyncdown),
 		BINDING(wsyncup),
-		BINDING(insstr),
-
-#ifdef LUA_CURSES_UNSAFE
-		BINDING(getstr),
-#endif /* LUA_CURSES_UNSAFE */
-
 		{NULL, NULL},
 	};
 

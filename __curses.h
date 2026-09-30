@@ -464,7 +464,7 @@ __END_DECLS
 //!#define	erase()				werase(stdscr)
 //!#define	getch()				wgetch(stdscr)
 //!#define	getnstr(s, n)			wgetnstr(stdscr, s, n)
-//!#define	getstr(s)			wgetstr(stdscr, s)
+//! SKIPPED #define	getstr(s)			wgetstr(stdscr, s)
 //!#define	inch()				winch(stdscr)
 #define	inchnstr(c)			winchnstr(stdscr, c)
 #define	inchstr(c)			winchstr(stdscr, c)
@@ -495,7 +495,7 @@ __END_DECLS
 //!#define	mvdelch(y, x)			mvwdelch(stdscr, y, x)
 //!#define	mvgetch(y, x)			mvwgetch(stdscr, y, x)
 #define	mvgetnstr(y, x, s, n)		mvwgetnstr(stdscr, y, x, s, n)
-#define	mvgetstr(y, x, s)		mvwgetstr(stdscr, y, x, s)
+//! SKIPPED #define	mvgetstr(y, x, s)		mvwgetstr(stdscr, y, x, s)
 //!#define	mvinch(y, x)			mvwinch(stdscr, y, x)
 #define	mvinchnstr(y, x, c, n)		mvwinchnstr(stdscr, y, x, c, n)
 #define	mvinchstr(y, x, c)		mvwinchstr(stdscr, y, x, c)
@@ -520,8 +520,8 @@ __END_DECLS
 	(wmove(w, y, x) == ERR ? ERR : wgetch(w))
 #define	mvwgetnstr(w, y, x, s, n) \
 	(wmove(w, y, x) == ERR ? ERR : wgetnstr(w, s, n))
-#define	mvwgetstr(w, y, x, s) \
-	(wmove(w, y, x) == ERR ? ERR : wgetstr(w, s))
+//! SKIPPED #define	mvwgetstr(w, y, x, s) \
+//! SKIPPED 	(wmove(w, y, x) == ERR ? ERR : wgetstr(w, s))
 #define	mvwinch(w, y, x) \
 	(wmove(w, y, x) == ERR ? ERR : winch(w))
 #define	mvwinchnstr(w, y, x, c, n) \
@@ -600,7 +600,7 @@ int	 mvaddnstr(int, int, const char *, int);
 //!int	 mvdelch(int, int);
 //!int	 mvgetch(int, int);
 int	 mvgetnstr(int, int, char *, int);
-int	 mvgetstr(int, int, char *);
+//! SKIPPED int	 mvgetstr(int, int, char *);
 //!chtype	 mvinch(int, int);
 int	 mvinchnstr(int, int, chtype *, int);
 int	 mvinchstr(int, int, chtype *);
@@ -617,7 +617,7 @@ int	 mvwaddstr(WINDOW *, int, int, const char *);
 int	 mvwdelch(WINDOW *, int, int);
 int	 mvwgetch(WINDOW *, int, int);
 int	 mvwgetnstr(WINDOW *, int, int, char *, int);
-int	 mvwgetstr(WINDOW *, int, int, char *);
+//! SKIPPED int	 mvwgetstr(WINDOW *, int, int, char *);
 chtype	 mvwinch(WINDOW *, int, int);
 int	 mvwinsch(WINDOW *, int, int, chtype);
 __END_DECLS
@@ -696,8 +696,8 @@ int	 has_key(int);
 //!int	 idcok(WINDOW *, bool);
 //!int	 idlok(WINDOW *, bool);
 //!int	 immedok(WINDOW *, bool);
-int	 init_color(short, short, short, short);
-int	 init_pair(short, short, short);
+//!int	 init_color(short, short, short, short);
+//!int	 init_pair(short, short, short);
 //!WINDOW	*initscr(void);
 //!int	 intrflush(WINDOW *, bool);
 //!bool	 isendwin(void);
@@ -724,7 +724,7 @@ int	 mvwinchstr(WINDOW *, int, int, chtype *);
 int	 mvwinnstr(WINDOW *, int, int, char *, int);
 int	 mvwinstr(WINDOW *, int, int, char *);
 int	 mvwprintw(WINDOW *, int, int, const char *, ...) __printflike(4, 5);
-int	 mvwscanw(WINDOW *, int, int, const char *, ...) __scanflike(4, 5);
+int	 mvwscanw(WINDOW *, int, int, const char *, ...) __scanflike(5, 5);
 //!int	 napms(int);
 WINDOW	*newpad(int, int);
 SCREEN  *newterm(char *, FILE *, FILE *);
@@ -748,7 +748,7 @@ int	 printw(const char *, ...) __printflike(1, 2);
 int	 putwin(WINDOW *, FILE *);
 //!void	 qiflush(void);
 //!int	 raw(void);
-int	 redrawwin(WINDOW *);
+//!int	 redrawwin(WINDOW *);
 int	 reset_prog_mode(void);
 int	 reset_shell_mode(void);
 //!int	 resetty(void);
@@ -763,7 +763,7 @@ int	 setterm(char *);
 int	 set_escdelay(int);
 int	 set_tabsize(int);
 SCREEN  *set_term(SCREEN *);
-int	 start_color(void);
+//!int	 start_color(void);
 WINDOW	*subpad(WINDOW *, int, int, int, int);
 WINDOW	*subwin(WINDOW *, int, int, int, int);
 //!int	 syncok(WINDOW *, bool);
@@ -771,11 +771,11 @@ chtype	 termattrs(void);
 attr_t	 term_attrs(void);
 int	 touchline(WINDOW *, int, int);
 int	 touchoverlap(WINDOW *, WINDOW *);
-int	 touchwin(WINDOW *);
+//!int	 touchwin(WINDOW *);
 int	 typeahead(int);
 //!int	 ungetch(int);
-int	 untouchwin(WINDOW *);
-int	 use_default_colors(void);
+//!int	 untouchwin(WINDOW *);
+//!int	 use_default_colors(void);
 void	 use_env(bool);
 //!int	 vline(chtype, int);
 int	 vw_printw(WINDOW *, const char *, __va_list) __printflike(2, 0);
@@ -790,9 +790,9 @@ int	 wattr_get(WINDOW *, attr_t *, short *, void *);
 int	 wattr_off(WINDOW *, attr_t, void *);
 int	 wattr_on(WINDOW *, attr_t, void *);
 int	 wattr_set(WINDOW *, attr_t, short, void *);
-int	 wattroff(WINDOW *, int);
-int	 wattron(WINDOW *, int);
-int	 wattrset(WINDOW *, int);
+//!int	 wattroff(WINDOW *, int);
+//!int	 wattron(WINDOW *, int);
+//!int	 wattrset(WINDOW *, int);
 int	 wbkgd(WINDOW *, chtype);
 void	 wbkgdset(WINDOW *, chtype);
 int	 wborder(WINDOW *, chtype, chtype, chtype, chtype, chtype, chtype,
@@ -802,13 +802,13 @@ int	 wborder(WINDOW *, chtype, chtype, chtype, chtype, chtype, chtype,
 //!int	 wclrtoeol(WINDOW *);
 int	 wcolor_set(WINDOW *, short, void *);
 void	 wcursyncup(WINDOW *);
-int	 wdelch(WINDOW *);
-int	 wdeleteln(WINDOW *);
+//!int	 wdelch(WINDOW *);
+//!int	 wdeleteln(WINDOW *);
 int	 wechochar(WINDOW *, const chtype);
 int	 werase(WINDOW *);
 int	 wgetch(WINDOW *);
 int	 wgetnstr(WINDOW *, char *, int);
-int	 wgetstr(WINDOW *, char *);
+//! SKIPPED int	 wgetstr(WINDOW *, char *);
 int	 whline(WINDOW *, chtype, int);
 chtype	 winch(WINDOW *);
 int	 winchnstr(WINDOW *, chtype *, int);
@@ -822,7 +822,7 @@ int	 winsertln(WINDOW *);
 int	 wnoutrefresh(WINDOW *);
 int	 wprintw(WINDOW *, const char *, ...)  __printflike(2, 3);
 int	 wredrawln(WINDOW *, int, int);
-int	 wrefresh(WINDOW *);
+//!int	 wrefresh(WINDOW *);
 int      wresize(WINDOW *, int, int);
 int	 wscanw(WINDOW *, const char *, ...) __scanflike(2, 3);
 int	 wscrl(WINDOW *, int);
